@@ -218,6 +218,131 @@
     font-size:13.5px;
   }
 
+  /* ---------- screen showcase ---------- */
+  /* ---------- screen showcase ---------- */
+  .screen-showcase{
+    padding:24px 24px 60px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:32px 20px;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .screen-item{
+    display:flex;
+    flex-direction:column;
+  }
+  .screen-item:last-child{
+    grid-column:2;
+  }
+  .screen-batch-label{
+    max-width:900px;
+    margin:0 auto;
+    padding:80px 24px 0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .screen-batch-label__platform{
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    padding:3px 9px;
+    border-radius:20px;
+  }
+  .screen-showcase{
+    padding-top:24px;
+  }
+  .screen-item__name{
+    font-size:13px;
+    font-weight:500;
+    color:var(--ink-soft);
+    margin-bottom:12px;
+  }
+  .screen-item img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:32px;
+    box-shadow:0 24px 60px rgba(28,26,36,.16),0 6px 16px rgba(28,26,36,.10);
+  }
+  @media(max-width:600px){
+    .screen-showcase{grid-template-columns:repeat(2,1fr)}
+    .screen-item:last-child{grid-column:auto}
+  }
+
+  /* ---------- prototype ---------- */
+  .proto-section{padding:62px 0;border-top:1px solid var(--line)}
+  .proto{
+    margin-top:40px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:32px;
+  }
+  .proto__chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    max-width:var(--maxw);
+    padding:0 24px;
+  }
+  .proto__chip{
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink-soft);
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    padding:7px 16px;
+    border-radius:40px;
+    cursor:pointer;
+    transition:background .15s,color .15s,border-color .15s;
+  }
+  .proto__chip:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .proto__chip.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+  }
+  .proto__device{
+    width:280px;
+    height:609px;
+    position:relative;
+    overflow:hidden;
+    border-radius:36px;
+    box-shadow:0 32px 80px rgba(28,26,36,.22),0 8px 24px rgba(28,26,36,.12);
+  }
+  .ps{
+    position:absolute;
+    top:0;left:0;
+    width:402px;
+    height:874px;
+    transform:scale(0.6965);
+    transform-origin:top left;
+    display:none;
+  }
+  .ps.active{display:block}
+  .ps>.ps-bg{width:402px;height:874px;display:block}
+  .ps-cover{position:absolute}
+  #ps-image{
+    position:absolute;
+    top:0;left:0;
+    width:402px;
+    transform:scale(0.6965);
+    transform-origin:top left;
+    display:none;
+  }
+  #ps-image.active{display:block}
+
   /* reveal */
   .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
@@ -240,10 +365,48 @@
       <div class="meta">
         <span>Role · Product Designer</span>
         <span>Scope · Mobile + Web</span>
-        <span>Time · ~5 hours</span>
+        <span>Time · ~6 hours</span>
       </div>
     </div>
   </header>
+
+  <div class="screen-batch-label">
+    <span class="screen-batch-label__platform">Mobile</span>
+  </div>
+  <div class="screen-showcase">
+    <div class="screen-item">
+      <p class="screen-item__name">Empty State</p>
+      <img src="screen-office-2.png" alt="Empty State">
+    </div>
+    <div class="screen-item">
+      <p class="screen-item__name">Light User</p>
+      <img src="screen-light-user.png" alt="Light User">
+    </div>
+    <div class="screen-item">
+      <p class="screen-item__name">Heavy User</p>
+      <img src="screen-heavy-user2.png" alt="Heavy User">
+    </div>
+    <div class="screen-item">
+      <p class="screen-item__name">Heavy User — Full Day</p>
+      <img src="screen-office.png" alt="Heavy User — Full Day">
+    </div>
+    <div class="screen-item">
+      <p class="screen-item__name">Adding a Task</p>
+      <img src="screen-adding-task.png" alt="Adding a Task">
+    </div>
+    <div class="screen-item">
+      <p class="screen-item__name">Task Confirmed</p>
+      <img src="screen-task-confirmed.png" alt="Task Confirmed">
+    </div>
+    <div class="screen-item">
+      <p class="screen-item__name">This Week — Empty</p>
+      <img src="screen-126-554.png" alt="This Week Empty">
+    </div>
+    <div class="screen-item">
+      <p class="screen-item__name">Weekly Briefing</p>
+      <img src="screen-weekly-briefing.png" alt="Weekly Briefing">
+    </div>
+  </div>
 
   <main>
 
@@ -260,6 +423,7 @@
         <div class="label">The thesis</div>
         <h2>These aren't four features. They're one question.</h2>
         <p>To the user, a reminder, a task, and an event are the same thing: something that needs attention at some point in time. So the home stops being four tiles and collapses into two time-based zones.</p>
+        <p>One scope call shaped this: I left <strong>Lists</strong> out. The brief defines The Office as time-bound, execution memory and The Park as ambient, no-urgency memory — by that line, a grocery list lives in the Park, not here, even though the current product files it alongside reminders.</p>
         <div class="thesis">
           <p class="q"><em>Today</em> — what to act on now. <em>This week</em> — what's coming. Everything merged by time, not by feature.</p>
         </div>
@@ -351,6 +515,62 @@
       </div>
     </section>
 
+    <section class="proto-section">
+      <div class="wrap reveal">
+        <div class="label">Prototype</div>
+        <h2>Try the flows.</h2>
+      </div>
+      <div class="proto">
+        <div class="proto__chips">
+          <button class="proto__chip active" data-screen="ps-empty">Empty State</button>
+          <button class="proto__chip" data-screen="ps-image" data-img="screen-light-user.png">Light User</button>
+          <button class="proto__chip" data-screen="ps-image" data-img="screen-heavy-user2.png">Heavy User</button>
+          <button class="proto__chip" data-screen="ps-image" data-img="screen-office.png">Heavy User — Full</button>
+          <button class="proto__chip" data-screen="ps-adding">Adding a Task</button>
+          <button class="proto__chip" data-screen="ps-confirmed">Task Confirmed</button>
+          <button class="proto__chip" data-screen="ps-image" data-img="screen-126-554.png">This Week — Empty</button>
+          <button class="proto__chip" data-screen="ps-image" data-img="screen-weekly-briefing.png">Weekly Briefing</button>
+        </div>
+        <div class="proto__device">
+
+          <!-- ① Empty State — real button -->
+          <div class="ps active" id="ps-empty">
+            <img class="ps-bg" src="screen-office-2.png" alt="">
+            <button id="btnCreate" style="position:absolute;left:20px;top:335px;width:362px;height:52px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
+          </div>
+
+          <!-- ② Adding a Task — real input + confirm -->
+          <div class="ps" id="ps-adding">
+            <img class="ps-bg" src="screen-adding-task.png" alt="">
+            <!-- erase static "call mom…" text from image -->
+            <div class="ps-cover" style="left:36px;top:168px;width:330px;height:44px;background:#2e2c46;border-radius:12px;border:1.5px solid rgba(155,127,212,0.55);"></div>
+            <!-- erase static NLP hint from image -->
+            <div class="ps-cover" style="left:36px;top:218px;width:330px;height:22px;background:#2a2840;"></div>
+            <!-- real input -->
+            <input id="taskInput" type="text" autocomplete="off" spellcheck="false"
+              style="position:absolute;left:46px;top:173px;width:310px;height:34px;background:transparent;border:none;outline:none;color:#ffffff;font-family:'Inter',sans-serif;font-size:15px;font-weight:400;caret-color:#9b7fd4;">
+            <!-- real NLP hint -->
+            <div id="nlpHint" style="position:absolute;left:36px;top:220px;width:330px;height:18px;font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.48);pointer-events:none;"></div>
+            <!-- transparent overlay on the purple "Create" button in the image -->
+            <button id="btnConfirm" style="position:absolute;left:36px;top:286px;width:330px;height:48px;background:transparent;border:none;cursor:pointer;border-radius:26px;"></button>
+          </div>
+
+          <!-- ③ Task Confirmed — animated progress bar -->
+          <div class="ps" id="ps-confirmed">
+            <img class="ps-bg" src="screen-task-confirmed.png" alt="">
+            <!-- progress bar track (covers static bar in image while animating) -->
+            <div id="progTrack" style="position:absolute;left:36px;top:119px;width:330px;height:3px;background:rgba(155,127,212,0.22);border-radius:2px;">
+              <div id="progBar" style="height:100%;width:100%;background:#9b7fd4;border-radius:2px;"></div>
+            </div>
+          </div>
+
+          <!-- Static image for non-interactive screens -->
+          <img id="ps-image" src="" alt="" style="height:874px;object-fit:cover;object-position:top;">
+
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer>
@@ -362,6 +582,104 @@
       entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})
     },{threshold:0.12});
     document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // ── Prototype ──────────────────────────────────────────────────────────
+    let protoTimer = null;
+
+    function showScreen(screenId, imgSrc) {
+      clearTimeout(protoTimer);
+
+      // hide all ps divs
+      document.querySelectorAll('.ps').forEach(el => el.classList.remove('active'));
+      const psImg = document.getElementById('ps-image');
+      psImg.classList.remove('active');
+
+      if (screenId === 'ps-image') {
+        psImg.src = imgSrc || '';
+        psImg.classList.add('active');
+      } else {
+        const el = document.getElementById(screenId);
+        if (el) el.classList.add('active');
+      }
+
+      // sync chips
+      document.querySelectorAll('.proto__chip').forEach(c => {
+        const match = c.dataset.screen === screenId &&
+          (screenId !== 'ps-image' || c.dataset.img === imgSrc);
+        c.classList.toggle('active', match);
+      });
+
+      // start progress bar when Task Confirmed becomes active
+      if (screenId === 'ps-confirmed') {
+        const bar = document.getElementById('progBar');
+        bar.style.transition = 'none';
+        bar.style.width = '100%';
+        bar.getBoundingClientRect(); // force reflow
+        bar.style.transition = 'width 3s linear';
+        bar.style.width = '0%';
+        protoTimer = setTimeout(() => showScreen('ps-image', 'screen-office.png'), 3000);
+      }
+
+      // reset input when returning to empty state
+      if (screenId === 'ps-empty') {
+        document.getElementById('taskInput').value = '';
+        document.getElementById('nlpHint').textContent = '';
+      }
+    }
+
+    // Chip navigation
+    document.querySelectorAll('.proto__chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        showScreen(chip.dataset.screen, chip.dataset.img);
+        if (chip.dataset.screen === 'ps-adding') {
+          setTimeout(() => document.getElementById('taskInput').focus(), 40);
+        }
+      });
+    });
+
+    // Empty State CTA → Adding a Task
+    document.getElementById('btnCreate').addEventListener('click', () => {
+      showScreen('ps-adding');
+      setTimeout(() => document.getElementById('taskInput').focus(), 40);
+    });
+
+    // Confirm button → Task Confirmed
+    document.getElementById('btnConfirm').addEventListener('click', () => {
+      showScreen('ps-confirmed');
+    });
+
+    // NLP parse hint
+    function updateNlpHint(val) {
+      const hint = document.getElementById('nlpHint');
+      if (!val.trim()) { hint.textContent = ''; return; }
+      if (/\b(remind|remember|don.{0,3}forget)\b/i.test(val))       hint.textContent = 'Setting a reminder';
+      else if (/\b(meet|call|lunch|appointment|at \d|dinner)\b/i.test(val)) hint.textContent = 'Adding a calendar event';
+      else if (/\b(buy|get|pick up|order|send)\b/i.test(val))       hint.textContent = 'Creating a task';
+      else                                                            hint.textContent = 'Creating a task';
+    }
+
+    document.getElementById('taskInput').addEventListener('input', e => {
+      updateNlpHint(e.target.value);
+    });
+
+    // Keypress on Empty State → go to Adding a Task and type first char
+    document.addEventListener('keydown', e => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
+           'Escape','Tab','Enter','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) return;
+      const emptyEl = document.getElementById('ps-empty');
+      if (emptyEl && emptyEl.classList.contains('active')) {
+        showScreen('ps-adding');
+        const inp = document.getElementById('taskInput');
+        inp.focus();
+        if (e.key === 'Backspace') { e.preventDefault(); return; }
+        if (e.key.length === 1) {
+          inp.value += e.key;
+          updateNlpHint(inp.value);
+          e.preventDefault();
+        }
+      }
+    });
   </script>
 
 </body>
