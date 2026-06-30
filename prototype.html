@@ -451,7 +451,8 @@ body{
   </div>
 
   <!-- ⑧ Weekly Briefing (scrollable) ───── -->
-  <div class="ps scrollable" id="s-briefing">
+  <div class="ps" id="s-briefing">
+  <div id="briefing-scroll" style="position:absolute;inset:0;overflow-y:scroll;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none">
     <div style="width:402px;min-height:1196px;position:relative">
       <div class="bg-photo" style="height:1196px"></div><div class="bg-overlay" style="height:1196px"></div>
       <div style="position:relative;z-index:1;display:flex;align-items:flex-start;gap:16px;padding:48px 20px 0">
@@ -525,6 +526,7 @@ body{
       <!-- spacer for bottom nav -->
       <div style="height:100px"></div>
     </div>
+  </div>
     <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
     <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
   </div>
@@ -586,7 +588,7 @@ body{
     if (push) history.push(id);
     document.querySelectorAll('.ps').forEach(el => el.classList.remove('active'));
     if (id !== 's-briefing') {
-      const b = document.getElementById('s-briefing');
+      const b = document.getElementById('briefing-scroll');
       if (b) b.scrollTop = 0;
     }
     const el = document.getElementById(id);
@@ -710,7 +712,10 @@ body{
   // Wheel → scroll briefing
   document.getElementById('device').addEventListener('wheel', e => {
     const b = document.getElementById('s-briefing');
-    if (b && b.classList.contains('active')) { b.scrollTop += e.deltaY; e.preventDefault(); }
+    if (b && b.classList.contains('active')) {
+      document.getElementById('briefing-scroll').scrollTop += e.deltaY;
+      e.preventDefault();
+    }
   }, { passive: false });
 </script>
 </body>
