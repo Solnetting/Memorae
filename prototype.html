@@ -580,6 +580,21 @@ body{
 </div><!-- /device -->
 
 <script>
+  // When loaded inside the case study iframe, strip all page chrome
+  if (window.self !== window.top) {
+    document.documentElement.style.cssText = 'height:100%;overflow:hidden';
+    document.body.style.cssText = 'margin:0;padding:0;background:transparent;display:block;overflow:hidden';
+    document.querySelector('.back')?.remove();
+    document.querySelector('.proto-eyebrow')?.remove();
+    document.querySelector('.chips')?.remove();
+    const dev = document.getElementById('device');
+    if (dev) dev.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;border-radius:0;box-shadow:none;overflow:hidden';
+  }
+  // Accept screen commands from parent page
+  window.addEventListener('message', e => {
+    if (e.data?.screen) { history.length = 0; history.push(e.data.screen); show(e.data.screen, false); }
+  });
+
   let protoTimer = null;
   const history = ['s-empty'];
 
