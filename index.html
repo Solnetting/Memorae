@@ -318,6 +318,8 @@
     overflow:hidden;
     border-radius:36px;
     box-shadow:0 32px 80px rgba(28,26,36,.22),0 8px 24px rgba(28,26,36,.12);
+    /* force GPU compositing so border-radius properly clips transformed children */
+    transform:translate3d(0,0,0);
   }
   .ps{
     position:absolute;
@@ -340,6 +342,15 @@
     display:none;
   }
   #ps-image.active{display:block}
+
+  /* ---------- inline shots ---------- */
+  .shot{margin:30px 0 4px;border-radius:22px;overflow:hidden;background:#1a1825;border:1px solid var(--line)}
+  .shot img{display:block;width:100%;height:auto}
+  .shot.phone{max-width:300px;margin-left:auto;margin-right:auto}
+  .shots{display:flex;gap:16px;flex-wrap:wrap;margin:30px 0 4px;justify-content:center}
+  .shots .shot{flex:1;min-width:240px;max-width:300px;margin:0}
+  .shot-cap{font-size:13px;color:var(--ink-faint);text-align:center;margin:10px 0 0}
+  @media(max-width:560px){.shots .shot{min-width:100%}}
 
   /* reveal */
   .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
@@ -368,48 +379,6 @@
     </div>
   </header>
 
-  <div class="screen-batch-label">
-    <span class="screen-batch-label__platform">Mobile</span>
-  </div>
-  <div class="screen-showcase">
-    <div class="screen-item">
-      <p class="screen-item__name">Empty State</p>
-      <img src="screen-office-2.png" alt="Empty State">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">Light User</p>
-      <img src="screen-light-user.png" alt="Light User">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">Heavy User</p>
-      <img src="screen-heavy-user2.png" alt="Heavy User">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">Heavy User — Full Day</p>
-      <img src="screen-office.png" alt="Heavy User — Full Day">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">Adding a Task</p>
-      <img src="screen-adding-task.png" alt="Adding a Task">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">Task Confirmed</p>
-      <img src="screen-task-confirmed.png" alt="Task Confirmed">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">This Week — Empty</p>
-      <img src="screen-126-554.png" alt="This Week Empty">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">Weekly Briefing</p>
-      <img src="screen-weekly-briefing.png" alt="Weekly Briefing">
-    </div>
-    <div class="screen-item">
-      <p class="screen-item__name">Today</p>
-      <img src="screen-today.png" alt="Today">
-    </div>
-  </div>
-
   <main>
 
     <section>
@@ -429,6 +398,10 @@
         <div class="thesis">
           <p class="q"><em>Today</em> — what to act on now. <em>This week</em> — what's coming. Everything merged by time, not by feature.</p>
         </div>
+        <div class="shot phone">
+          <img src="screen-office.png" alt="The Office home — Today and This week merged by time">
+        </div>
+        <p class="shot-cap">The Office home — Today and This week, merged by time.</p>
       </div>
     </section>
 
@@ -459,6 +432,15 @@
             </div>
           </div>
         </div>
+        <div class="shots">
+          <div class="shot">
+            <img src="screen-adding-task.png" alt="Adding a Task">
+          </div>
+          <div class="shot">
+            <img src="screen-task-confirmed.png" alt="Task Confirmed">
+          </div>
+        </div>
+        <p class="shot-cap">Type naturally → Memorae parses it → confirm, with an auto-dismiss window.</p>
       </div>
     </section>
 
@@ -467,6 +449,15 @@
         <div class="label">Scaling invisibly</div>
         <h2>From three reminders to two hundred items — same structure.</h2>
         <p>An empty state invites a first action instead of showing hollow cards. A heavy day still surfaces only the top items, with the rest one tap away. It never feels empty for new users, or overwhelming for power users.</p>
+        <div class="shots">
+          <div class="shot">
+            <img src="screen-office-2.png" alt="Empty State">
+          </div>
+          <div class="shot">
+            <img src="screen-today.png" alt="Full day view">
+          </div>
+        </div>
+        <p class="shot-cap">Empty state invites a first action; the full day groups by time and shows what's done.</p>
       </div>
     </section>
 
@@ -492,6 +483,10 @@
             <p>Thursday and Friday after 6 are clear. Nice.</p>
           </div>
         </div>
+        <div class="shot phone">
+          <img src="screen-weekly-briefing.png" alt="Weekly Briefing">
+        </div>
+        <p class="shot-cap">Tap any day in the heat map to see it; the action cards sit alongside.</p>
       </div>
     </section>
 
@@ -531,13 +526,13 @@
           <button class="proto__chip" data-screen="ps-adding">Adding a Task</button>
           <button class="proto__chip" data-screen="ps-confirmed">Task Confirmed</button>
           <button class="proto__chip" data-screen="ps-image" data-img="screen-126-554.png">This Week — Empty</button>
-          <button class="proto__chip" data-screen="ps-image" data-img="screen-weekly-briefing.png">Weekly Briefing</button>
+          <button class="proto__chip" data-screen="ps-briefing">Weekly Briefing</button>
           <button class="proto__chip" data-screen="ps-image" data-img="screen-today.png">Today</button>
         </div>
         <div class="proto__device">
 
-          <!-- Global back button — sits above all screens at the < position -->
-          <button id="btnBack" style="position:absolute;left:14px;top:46px;width:46px;height:46px;background:transparent;border:none;cursor:pointer;border-radius:100px;z-index:10;"></button>
+          <!-- Global back button — matches nav bar position in all screens -->
+          <button id="btnBack" style="position:absolute;left:14px;top:20px;width:46px;height:46px;background:transparent;border:none;cursor:pointer;border-radius:100px;z-index:10;"></button>
 
           <!-- ① Empty State -->
           <div class="ps active" id="ps-empty">
@@ -590,12 +585,41 @@
             </div>
           </div>
 
-          <!-- ③ Task Confirmed — bar fills left→right, then auto-goes to Heavy User -->
+          <!-- ③ Task Confirmed — 100% HTML, no image, no duplication -->
           <div class="ps" id="ps-confirmed">
-            <img class="ps-bg" src="screen-task-confirmed.png" alt="">
-            <!-- opaque track covers the static partial bar in the image -->
-            <div id="progTrack" style="position:absolute;left:36px;top:119px;width:330px;height:3px;background:#27253d;border-radius:2px;">
-              <div id="progBar" style="height:100%;width:0%;background:#9b7fd4;border-radius:2px;"></div>
+            <!-- same gradient as ps-adding -->
+            <div style="position:absolute;inset:0;background:linear-gradient(175deg,#302f48 0%,#37364e 18%,#3b3849 45%,#3c3843 70%,#382e38 100%);"></div>
+            <!-- nav bar (same visual as ps-adding — #btnBack handles the click) -->
+            <div style="position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;">
+              <div style="width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;">
+                <svg width="9" height="15" viewBox="0 0 9 15" fill="none"><path d="M7.5 1.5L2 7.5L7.5 13.5" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="background:rgba(255,255,255,0.13);border-radius:100px;padding:9px 18px;display:flex;gap:14px;align-items:center;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="7" width="15" height="11" rx="2" stroke="white" stroke-width="1.6"/><path d="M7 7V5.5a1 1 0 011-1h4a1 1 0 011 1V7" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L4.5 10.5H9L7 18h6l-2-7.5H15L10 2z" stroke="rgba(255,255,255,0.4)" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 7L4.5 9.5H3v1h1.5L8 13V7z" fill="rgba(255,255,255,0.6)"/><path d="M10.5 9.5a2 2 0 010 1M12.5 7.5a5 5 0 010 5" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+            <!-- single animated progress bar — the only one, no image to clash with -->
+            <div id="progTrack" style="position:absolute;left:0;right:0;top:68px;height:3px;background:rgba(155,127,212,0.18);border-radius:2px;">
+              <div id="progBar" style="height:100%;width:0%;background:#9b7fd4;border-radius:2px;transition:none;"></div>
+            </div>
+            <!-- Reminder created card -->
+            <div style="position:absolute;left:16px;right:16px;top:92px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:24px;padding:20px 16px;box-sizing:border-box;">
+              <p style="font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:#fff;margin:0 0 16px;">Reminder created</p>
+              <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:12px;display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)" style="flex-shrink:0;margin-top:2px;"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                <div>
+                  <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#fff;margin:0 0 3px;">Call mom</p>
+                  <p style="font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin:0;">Tomorrow, 6:00pm · notifies on WhatsApp and 2+</p>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;">
+                <button style="flex:1;height:44px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15);border-radius:26px;color:rgba(255,255,255,0.85);font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Edit</button>
+                <button id="btnConfirmedDone" style="flex:1;height:44px;background:#9b7fd4;border:none;border-radius:26px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Done</button>
+              </div>
             </div>
           </div>
 
@@ -604,7 +628,12 @@
             <img class="ps-bg" src="screen-heavy-user2.png" alt="">
             <button id="btnHeavyCreate" style="position:absolute;left:20px;top:200px;width:150px;height:42px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
             <button id="btnSeeFullDay" style="position:absolute;left:36px;top:463px;width:330px;height:46px;background:transparent;border:none;cursor:pointer;border-radius:22px;"></button>
-            <button id="btnViewFullWeek" style="position:absolute;left:214px;top:538px;width:165px;height:36px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
+            <button id="btnViewFullWeek" style="position:absolute;left:218px;top:560px;width:162px;height:44px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
+          </div>
+
+          <!-- Weekly Briefing — scrollable (1199px image) -->
+          <div class="ps" id="ps-briefing" style="overflow-y:scroll;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none;">
+            <img src="screen-weekly-briefing.png" style="width:402px;height:auto;display:block;">
           </div>
 
           <!-- Static image for view-only screens -->
@@ -638,6 +667,11 @@
       document.querySelectorAll('.ps').forEach(el => el.classList.remove('active'));
       const psImg = document.getElementById('ps-image');
       psImg.classList.remove('active');
+      // reset briefing scroll whenever leaving it
+      if (screenId !== 'ps-briefing') {
+        const br = document.getElementById('ps-briefing');
+        if (br) br.scrollTop = 0;
+      }
 
       if (screenId === 'ps-image') {
         psImg.src = imgSrc || '';
@@ -661,7 +695,12 @@
         bar.getBoundingClientRect();
         bar.style.transition = 'width 3s linear';
         bar.style.width = '100%';
-        protoTimer = setTimeout(() => showScreen('ps-heavy', null, false), 3000);
+        protoTimer = setTimeout(() => {
+          // replace ps-confirmed in history so back-nav never lands here again
+          const idx = navHistory.lastIndexOf('ps-confirmed:');
+          if (idx !== -1) navHistory.splice(idx, 1);
+          showScreen('ps-heavy', null, true);
+        }, 3000);
       }
 
       if (screenId !== 'ps-adding') {
@@ -726,14 +765,22 @@
       showScreen('ps-image', 'screen-today.png', true);
     });
 
-    // Heavy User: View full week → Weekly Briefing
+    // Heavy User: View full week → Weekly Briefing (scrollable)
     document.getElementById('btnViewFullWeek').addEventListener('click', () => {
-      showScreen('ps-image', 'screen-weekly-briefing.png', true);
+      showScreen('ps-briefing', null, true);
     });
 
     // Confirm → Task Confirmed
     document.getElementById('btnConfirm').addEventListener('click', () => {
       showScreen('ps-confirmed', null, true);
+    });
+
+    // Done button inside Task Confirmed — same as timer: skip to Heavy User
+    document.getElementById('btnConfirmedDone').addEventListener('click', () => {
+      clearTimeout(protoTimer);
+      const idx = navHistory.lastIndexOf('ps-confirmed:');
+      if (idx !== -1) navHistory.splice(idx, 1);
+      showScreen('ps-heavy', null, true);
     });
 
     // NLP parse hint
@@ -749,6 +796,15 @@
     document.getElementById('taskInput').addEventListener('input', e => {
       updateNlpHint(e.target.value);
     });
+
+    // Wheel scroll for ps-briefing (overflow:hidden on device blocks native scroll)
+    document.querySelector('.proto__device').addEventListener('wheel', e => {
+      const briefing = document.getElementById('ps-briefing');
+      if (briefing && briefing.classList.contains('active')) {
+        briefing.scrollTop += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
 
     // Keydown on Empty State or Heavy User → jump to Adding a Task
     document.addEventListener('keydown', e => {
