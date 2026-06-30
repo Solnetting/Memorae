@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memorae — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:#0d0b14;
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;align-items:center;
+  min-height:100vh;
+  padding:40px 20px 80px;
+}
+.back{
+  align-self:flex-start;margin-bottom:32px;
+  color:#a8a3b8;text-decoration:none;font-size:14px;font-weight:500;
+  display:flex;align-items:center;gap:6px;
+}
+.back:hover{color:#fff}
+.proto-eyebrow{
+  font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  color:#9b7fd4;font-weight:600;margin-bottom:24px;
+}
+.chips{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  max-width:700px;margin-bottom:40px;
+}
+.chip{
+  font-size:13px;font-weight:500;color:rgba(255,255,255,0.55);
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  padding:7px 16px;border-radius:40px;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.chip:hover{border-color:#9b7fd4;color:#9b7fd4}
+.chip.active{background:#9b7fd4;border-color:#9b7fd4;color:#fff}
+
+/* ── Device ───────────────────────────── */
+.device{
+  width:280px;height:609px;
+  position:relative;overflow:hidden;border-radius:36px;
+  box-shadow:0 32px 80px rgba(0,0,0,.55),0 8px 24px rgba(0,0,0,.3);
+  transform:translate3d(0,0,0);
+}
+
+/* ── Screen base 402×874 scaled ───────── */
+.ps{
+  position:absolute;top:0;left:0;
+  width:402px;height:874px;
+  transform:scale(0.6965);transform-origin:top left;
+  display:none;overflow:hidden;
+}
+.ps.active{display:block}
+.ps.scrollable{overflow-y:scroll;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none}
+.ps.scrollable::-webkit-scrollbar{display:none}
+
+/* ── Backgrounds ──────────────────────── */
+.bg-photo{position:absolute;inset:0;background:url('bg-office.jpg') center/cover no-repeat}
+.bg-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(60px);-webkit-backdrop-filter:blur(60px)}
+.bg-gradient{position:absolute;inset:0;background:linear-gradient(175deg,#302f48 0%,#37364e 18%,#3b3849 45%,#3c3843 70%,#382e38 100%)}
+.bg-week-empty{position:absolute;inset:0;background:linear-gradient(180deg,#2e2c3e 0%,#201e2c 55%,#161523 100%)}
+
+/* ── Material Symbols ─────────────────── */
+.mi{
+  font-family:'Material Symbols Rounded';
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+  font-size:20px;line-height:1;user-select:none;display:inline-block;flex-shrink:0;
+}
+.mi.f{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+.mi.s32{font-size:32px}.mi.s24{font-size:24px}.mi.s18{font-size:18px}.mi.s14{font-size:14px}
+
+/* ── Layout helpers ───────────────────── */
+.row{display:flex;align-items:center}
+.col{display:flex;flex-direction:column}
+.jb{justify-content:space-between}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}
+.w100{width:100%}
+
+/* ── Header ───────────────────────────── */
+.ps-header{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.btn-circle{
+  width:40px;height:40px;border-radius:100px;flex-shrink:0;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.switcher{
+  width:120px;height:40px;border-radius:100px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);
+  display:flex;align-items:center;padding:3px;gap:0;flex-shrink:0;
+}
+.sw-tab{flex:1;height:100%;border-radius:100px;display:flex;align-items:center;justify-content:center}
+.sw-tab.on{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1)}
+
+/* ── Content wrapper ──────────────────── */
+.ps-body{position:relative;z-index:1;display:flex;flex-direction:column;padding:52px 20px 100px;height:874px;gap:24px}
+
+/* ── Glass card ───────────────────────── */
+.glass{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:32px;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+
+/* ── CTA buttons ──────────────────────── */
+.cta{height:44px;border-radius:26px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 24px;font-size:15px;font-weight:700;cursor:pointer;flex-shrink:0;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15)}
+.cta-purple{background:#9b7fd4;color:#fff}
+.cta-ghost{background:rgba(255,255,255,.12);color:#fff;font-weight:500}
+
+/* ── List items (compact, inside cards) ─ */
+.li{background:rgba(255,255,255,.1);border-radius:8px;padding:8px;display:flex;align-items:center;justify-content:space-between}
+.li-name{font-size:14px;font-weight:600;color:#fff}
+.li-time{font-size:14px;font-weight:400;color:#fff;white-space:nowrap}
+.li-overdue{background:rgba(192,69,63,.3)}
+
+/* ── Badge ────────────────────────────── */
+.badge{background:rgba(255,255,255,.1);border-radius:100px;padding:2px 8px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap}
+.badge-red{background:rgba(192,69,63,.25);border:1px solid #c0453f;color:#ffbfc0}
+.badge-purple{background:rgba(155,127,212,.25);border-radius:4px;padding:2px 6px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#d1c4ff}
+
+/* ── Bar chart ────────────────────────── */
+.bars{display:flex;align-items:flex-end;gap:6px;height:68px;width:100%}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px}
+.bar{width:100%;border-radius:4px}
+.bar-lbl{font-size:14px;font-weight:400;color:#a8a3b8;line-height:1}
+.bar-lbl.hi{font-weight:800;color:#fff}
+.sep{height:1px;background:rgba(255,255,255,.15);width:100%;flex-shrink:0}
+.sep-txt{display:flex;align-items:center;gap:12px}
+.sep-txt .sep{flex:1}
+.sep-txt span{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap}
+
+/* ── Bottom nav ───────────────────────── */
+.ps-nav{position:absolute;bottom:0;left:0;right:0;padding:0 20px 32px;z-index:10}
+.nav-bar{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:32px;height:60px;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;backdrop-filter:blur(2px)}
+
+/* ── Mascot ───────────────────────────── */
+.mascot{position:absolute;right:12px;width:63px;height:58px;object-fit:cover;pointer-events:none;z-index:5}
+
+/* ── Suggestion rows (empty state) ───── */
+.suggest{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:14px}
+.suggest p{font-size:15px;font-weight:500;color:#fff;flex:1}
+
+/* ── Task cards (today full day) ──────── */
+.task-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:16px;padding:16px;display:flex;align-items:center;justify-content:space-between}
+.task-card.overdue{background:rgba(255,20,0,.25)}
+.tc-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.tc-name{font-size:18px;font-weight:500;color:#fff}
+.tc-name.done{text-decoration:line-through}
+.tc-time{font-size:14px;font-weight:500;color:#a8a3b8;white-space:nowrap}
+.section-hdr{font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#a8a3b8;padding:0 4px 8px}
+.section-hdr.mt{padding-top:16px}
+
+/* ── Notice cards (weekly briefing) ───── */
+.notice{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:32px;padding:16px;display:flex;flex-direction:column;gap:16px;backdrop-filter:blur(2px)}
+.notice-head{display:flex;flex-direction:column;gap:4px}
+.notice-title{font-size:16px;font-weight:700;color:#fff}
+.notice-body{font-size:14px;font-weight:400;color:#a8a3b8;line-height:20px}
+
+/* ── Progress bar ─────────────────────── */
+#progTrack{position:absolute;left:0;right:0;top:68px;height:3px;background:rgba(155,127,212,.18);border-radius:2px;z-index:2}
+#progBar{height:100%;width:0%;background:#9b7fd4;border-radius:2px;transition:none}
+
+/* ── Keyboard ─────────────────────────── */
+#proto-kb{position:absolute;left:0;right:0;bottom:0;height:238px;background:#1c1c1e;padding:10px 3px 6px;display:flex;flex-direction:column;gap:10px}
+.kb-row{display:flex;gap:5px}
+.k{flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer}
+.k.wide{flex:1.5;background:#3a3a3c}
+.k.wider{flex:5;background:#4a4a4e;color:rgba(255,255,255,.4)}
+.k.small{font-size:13px}
+</style>
+</head>
+<body>
+
+<a href="/" class="back">← Back to case study</a>
+<div class="proto-eyebrow">Memorae · Prototype</div>
+
+<div class="chips">
+  <button class="chip active" data-s="s-empty">Empty State</button>
+  <button class="chip" data-s="s-light">Light User</button>
+  <button class="chip" data-s="s-heavy">Heavy User</button>
+  <button class="chip" data-s="s-heavyf">Heavy User — Full</button>
+  <button class="chip" data-s="s-adding">Adding a Task</button>
+  <button class="chip" data-s="s-confirmed">Task Confirmed</button>
+  <button class="chip" data-s="s-weekempty">This Week — Empty</button>
+  <button class="chip" data-s="s-briefing">Weekly Briefing</button>
+  <button class="chip" data-s="s-today">Today</button>
+</div>
+
+<div class="device" id="device">
+  <!-- Global back tap zone -->
+  <button id="btnBack" style="position:absolute;left:14px;top:20px;width:40px;height:40px;background:transparent;border:none;cursor:pointer;z-index:30;border-radius:100px;"></button>
+
+  <!-- ① Empty State ─────────────────────── -->
+  <div class="ps active" id="s-empty">
+    <div class="bg-photo"></div><div class="bg-overlay"></div>
+    <div class="ps-body" style="gap:32px">
+      <div class="ps-header">
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+        <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+      </div>
+      <div class="col g24" style="align-items:center;flex:1">
+        <img src="memorae-avatar.png" alt="Memorae" style="width:96px;height:88px;object-fit:cover">
+        <div class="col g12" style="text-align:center">
+          <p style="font-size:24px;font-weight:600">Nothing on your plate yet.</p>
+          <p style="font-size:15px;color:rgba(255,255,255,.7);line-height:1.5">Tell me what's on your mind — a reminder, a task, an event — and I'll keep track of it for you.</p>
+        </div>
+        <button id="btnEmptyCreate" class="cta cta-purple w100"><span class="mi s18">add</span>Create a...</button>
+        <div class="sep-txt w100"><div class="sep"></div><span>Or try one of these</span><div class="sep"></div></div>
+        <div class="col w100" style="gap:10px">
+          <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">add_alert</span><p>Remind me to drink water at 10am</p></div>
+          <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">ballot</span><p>Summarise my today plan</p></div>
+          <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">ballot</span><p>Organise my week :)</p></div>
+          <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">add_alert</span><p>Set a recurrent reminder for</p></div>
+          <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">calendar_today</span><p>Create a meeting in my calendar</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+  </div>
+
+  <!-- ② Light User ─────────────────────── -->
+  <div class="ps" id="s-light">
+    <div class="bg-photo"></div><div class="bg-overlay"></div>
+    <div class="ps-body">
+      <div class="ps-header">
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+        <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+      </div>
+      <div class="col g24">
+        <div class="col g8"><p style="font-size:24px;font-weight:600">The Office</p><p style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.5">Busy one today — 3 things need you before noon, starting with the overdue invoice.</p></div>
+        <button id="btnLightCreate" class="cta cta-purple" style="align-self:flex-start"><span class="mi s18">add</span>Create a...</button>
+      </div>
+      <div class="col" style="gap:20px">
+        <!-- Today card -->
+        <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <div class="row jb"><span style="font-size:24px;font-weight:600">Today</span><div class="badge">3 items</div></div>
+          <div class="col g8">
+            <div class="li"><div class="row g4"><span class="mi s18">ballot</span><span class="li-name">Finish Q3 deck</span></div><span class="li-time">11:00</span></div>
+            <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Team sync</span></div><span class="li-time">15:30</span></div>
+          </div>
+          <button id="btnLightDay" class="cta cta-ghost w100">See full day <span class="mi s18">arrow_forward_ios</span></button>
+        </div>
+        <!-- This week card -->
+        <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <div class="row jb"><span style="font-size:24px;font-weight:600">This week</span><div class="badge row g4" id="btnLightWeek" style="cursor:pointer">View full week <span class="mi s14">arrow_forward</span></div></div>
+          <div class="col g16">
+            <div class="bars">
+              <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div></div>
+              <div class="bar-col"><div class="bar" style="height:29px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div></div>
+              <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:13px;background:#a7b4bb"></div></div>
+            </div>
+            <div class="sep"></div>
+          </div>
+          <div class="col g4">
+            <span style="font-size:14px;color:#a8a3b8">Lighter week than usual</span>
+            <div class="row g4"><span class="mi s18">add_alert</span><span style="font-size:14px;font-weight:500">Tomorrow: Dentist 9am</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+    <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+  </div>
+
+  <!-- ③ Heavy User ─────────────────────── -->
+  <div class="ps" id="s-heavy">
+    <div class="bg-photo"></div><div class="bg-overlay"></div>
+    <div class="ps-body">
+      <div class="ps-header">
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+        <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+      </div>
+      <div class="col g24">
+        <div class="col g8"><p style="font-size:24px;font-weight:600">The Office</p><p style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.5">Busy one today — 3 things need you before noon, starting with the overdue invoice.</p></div>
+        <button id="btnHeavyCreate" class="cta cta-purple" style="align-self:flex-start"><span class="mi s18">add</span>Create a...</button>
+      </div>
+      <div class="col" style="gap:20px">
+        <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <div class="row jb"><span style="font-size:24px;font-weight:600">Today</span><div class="badge">3 items</div></div>
+          <div class="col g8">
+            <div class="li"><div class="row g4"><span class="mi s18">ballot</span><span class="li-name">Finish Q3 deck</span></div><span class="li-time">11:00</span></div>
+            <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Team sync</span></div><span class="li-time">15:30</span></div>
+            <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Memorae call</span></div><span class="li-time">15:30</span></div>
+          </div>
+          <button id="btnHeavyDay" class="cta cta-ghost w100">See full day <span class="mi s18">arrow_forward_ios</span></button>
+        </div>
+        <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <div class="row jb"><span style="font-size:24px;font-weight:600">This week</span><div class="badge row g4" id="btnHeavyWeek" style="cursor:pointer">View full week <span class="mi s14">arrow_forward</span></div></div>
+          <div class="col g16">
+            <div class="bars">
+              <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div></div>
+              <div class="bar-col"><div class="bar" style="height:68px;background:#c0453f;border:1px solid #d5d0e4"></div></div>
+              <div class="bar-col"><div class="bar" style="height:28px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div></div>
+              <div class="bar-col"><div class="bar" style="height:20px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:14px;background:#a7b4bb"></div></div>
+            </div>
+            <div class="sep"></div>
+          </div>
+          <div class="row g4" style="color:#a8a3b8;font-size:14px"><span class="mi s18" style="color:#f5a623">warning</span><span style="color:#fff">Wed looks packed — </span><span style="color:#9b7fd4;text-decoration:underline;cursor:pointer">Want help?</span></div>
+        </div>
+      </div>
+    </div>
+    <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+    <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+  </div>
+
+  <!-- ④ Heavy User Full ─────────────────── -->
+  <div class="ps" id="s-heavyf">
+    <div class="bg-photo"></div><div class="bg-overlay"></div>
+    <div class="ps-body">
+      <div class="ps-header">
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+        <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+        <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+      </div>
+      <div class="col g24">
+        <div class="col g8"><p style="font-size:24px;font-weight:600">The Office</p><p style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.5">Busy one today — 3 things need you before noon, starting with the overdue invoice.</p></div>
+        <button id="btnHeavyfCreate" class="cta cta-purple" style="align-self:flex-start"><span class="mi s18">add</span>Create a...</button>
+      </div>
+      <div class="col" style="gap:20px">
+        <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <div class="row jb"><span style="font-size:24px;font-weight:600">Today</span><div class="badge">14 items</div></div>
+          <div class="col g8">
+            <div class="li li-overdue"><div class="row g4"><span class="mi s18" style="color:#ff9090">ballot</span><span class="li-name">Send invoice</span></div><span class="li-time" style="color:#ffb0b0">2 days overdue</span></div>
+            <div class="li"><div class="row g4"><span class="mi s18">ballot</span><span class="li-name">Finish Q3 deck</span></div><span class="li-time">11:00</span></div>
+            <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Team sync</span></div><span class="li-time">15:30</span></div>
+          </div>
+          <button id="btnHeavyfDay" class="cta cta-ghost w100">See full day <span class="mi s18">arrow_forward_ios</span></button>
+        </div>
+        <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <div class="row jb"><span style="font-size:24px;font-weight:600">This week</span><div class="badge row g4" id="btnHeavyfWeek" style="cursor:pointer">View full week <span class="mi s14">arrow_forward</span></div></div>
+          <div class="col g16">
+            <div class="bars">
+              <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div></div>
+              <div class="bar-col"><div class="bar" style="height:68px;background:#c0453f;border:1px solid #d5d0e4"></div></div>
+              <div class="bar-col"><div class="bar" style="height:28px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div></div>
+              <div class="bar-col"><div class="bar" style="height:20px;background:#afa7bb"></div></div>
+              <div class="bar-col"><div class="bar" style="height:14px;background:#a7b4bb"></div></div>
+            </div>
+            <div class="sep"></div>
+          </div>
+          <div class="col g4">
+            <div class="row g4"><span class="mi s18">add_alert</span><span style="font-size:14px;font-weight:500">Tomorrow: Dentist 9am</span></div>
+            <div class="row g4" style="font-size:14px"><span class="mi s18" style="color:#f5a623">warning</span><span style="color:#fff">Wed looks packed — </span><span style="color:#9b7fd4;text-decoration:underline;cursor:pointer">Want help?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+    <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+  </div>
+
+  <!-- ⑤ Adding a Task ───────────────────── -->
+  <div class="ps" id="s-adding">
+    <div class="bg-gradient"></div>
+    <div style="position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1">
+      <button id="btnCloseCard" class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></button>
+      <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+      <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+    </div>
+    <div style="position:absolute;left:16px;right:16px;top:110px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:20px 16px;z-index:1">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-size:17px;font-weight:600">Create a...</span>
+        <span style="color:rgba(255,255,255,.45);font-size:22px;cursor:pointer" onclick="document.getElementById('btnCloseCard').click()">×</span>
+      </div>
+      <input id="taskInput" type="text" autocomplete="off" spellcheck="false" placeholder=""
+        style="width:100%;height:42px;background:rgba(255,255,255,.07);border:1.5px solid rgba(155,127,212,.65);border-radius:12px;outline:none;color:#fff;font-family:'Inter',sans-serif;font-size:15px;padding:0 12px;caret-color:#9b7fd4;box-sizing:border-box">
+      <div id="nlpHint" style="height:20px;margin-top:8px;font-size:12px;color:rgba(255,255,255,.45)"></div>
+      <button id="btnConfirm" class="cta cta-purple w100" style="margin-top:12px">Create</button>
+    </div>
+    <div id="proto-kb">
+      <div class="kb-row"><span data-k="q" class="k">q</span><span data-k="w" class="k">w</span><span data-k="e" class="k">e</span><span data-k="r" class="k">r</span><span data-k="t" class="k">t</span><span data-k="y" class="k">y</span><span data-k="u" class="k">u</span><span data-k="i" class="k">i</span><span data-k="o" class="k">o</span><span data-k="p" class="k">p</span></div>
+      <div class="kb-row" style="padding:0 18px"><span data-k="a" class="k">a</span><span data-k="s" class="k">s</span><span data-k="d" class="k">d</span><span data-k="f" class="k">f</span><span data-k="g" class="k">g</span><span data-k="h" class="k">h</span><span data-k="j" class="k">j</span><span data-k="k" class="k">k</span><span data-k="l" class="k">l</span></div>
+      <div class="kb-row"><span data-k="⇧" class="k wide">⇧</span><span data-k="z" class="k">z</span><span data-k="x" class="k">x</span><span data-k="c" class="k">c</span><span data-k="v" class="k">v</span><span data-k="b" class="k">b</span><span data-k="n" class="k">n</span><span data-k="m" class="k">m</span><span data-k="del" class="k wide">⌫</span></div>
+      <div class="kb-row"><span data-k="123" class="k wide small">123</span><span data-k=" " class="k wider">space</span><span data-k="return" class="k wide small">return</span></div>
+    </div>
+  </div>
+
+  <!-- ⑥ Task Confirmed ─────────────────── -->
+  <div class="ps" id="s-confirmed">
+    <div class="bg-gradient"></div>
+    <div style="position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1">
+      <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+      <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+      <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+    </div>
+    <div id="progTrack"><div id="progBar"></div></div>
+    <div style="position:absolute;left:16px;right:16px;top:92px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:20px 16px;z-index:1">
+      <p style="font-size:22px;font-weight:700;margin-bottom:16px">Reminder created</p>
+      <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:12px;display:flex;align-items:flex-start;gap:10px;margin-bottom:20px">
+        <span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.8)">add_alert</span>
+        <div>
+          <p style="font-size:15px;font-weight:600;margin-bottom:3px">Call mom</p>
+          <p style="font-size:13px;color:rgba(255,255,255,.55)">Tomorrow, 6:00pm · notifies on WhatsApp and 2+</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px">
+        <button id="btnEdit" class="cta cta-ghost" style="flex:1;padding:0">Edit</button>
+        <button id="btnConfirmedDone" class="cta cta-purple" style="flex:1;padding:0">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦ This Week — Empty ──────────────── -->
+  <div class="ps" id="s-weekempty">
+    <div class="bg-week-empty"></div>
+    <div style="position:relative;z-index:1;padding:14px 20px 0;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:14px;font-weight:600">13:27</span>
+      <span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.7)">5G</span>
+    </div>
+    <div style="position:relative;z-index:1;display:flex;align-items:center;gap:16px;padding:12px 20px 0">
+      <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+      <div class="col g8" style="flex:1">
+        <div class="row g8"><span style="font-size:24px;font-weight:600">This week</span><span style="font-size:14px;font-weight:500;color:#a8a3b8">-</span><span style="font-size:14px;font-weight:500;color:#a8a3b8">Jun 29 / Jul 5</span></div>
+      </div>
+    </div>
+    <div style="position:relative;z-index:1;padding:24px 20px 0;display:flex;gap:6px;align-items:flex-end;height:60px">
+      <div class="bar-col" style="height:100%"><div class="bar" style="height:10px;background:rgba(175,167,187,.4);border-radius:100px"></div></div>
+      <div class="bar-col" style="height:100%"><div class="bar" style="height:10px;background:rgba(175,167,187,.4);border-radius:100px"></div></div>
+      <div class="bar-col" style="height:100%"><div class="bar" style="height:10px;background:rgba(175,167,187,.4);border-radius:100px"></div></div>
+      <div class="bar-col" style="height:100%"><div class="bar" style="height:10px;background:rgba(175,167,187,.4);border-radius:100px"></div></div>
+      <div class="bar-col" style="height:100%"><div class="bar" style="height:10px;background:rgba(175,167,187,.4);border-radius:100px"></div></div>
+      <div class="bar-col" style="height:100%"><div class="bar" style="height:10px;background:rgba(175,167,187,.4);border-radius:100px"></div></div>
+      <div class="bar-col" style="height:100%"><div class="bar" style="height:10px;background:rgba(175,167,187,.4);border-radius:100px"></div></div>
+    </div>
+    <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 40px 160px;text-align:center;gap:16px;margin-top:60px">
+      <p style="font-size:26px;font-weight:700;line-height:1.2">Your week's wide open.</p>
+      <p style="font-size:15px;color:rgba(255,255,255,.6);line-height:1.6">Once you've got a few reminders, tasks, or events in, I'll map out your workload here — and flag the busy days before they sneak up on you.</p>
+      <button id="btnWeekEmptyCreate" class="cta cta-purple" style="margin-top:8px"><span class="mi s18">add</span>Create a...</button>
+    </div>
+    <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+    <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+  </div>
+
+  <!-- ⑧ Weekly Briefing (scrollable) ───── -->
+  <div class="ps scrollable" id="s-briefing">
+    <div style="width:402px;min-height:1196px;position:relative">
+      <div class="bg-photo" style="height:1196px"></div><div class="bg-overlay" style="height:1196px"></div>
+      <div style="position:relative;z-index:1;display:flex;align-items:flex-start;gap:16px;padding:48px 20px 0">
+        <div class="btn-circle" style="flex-shrink:0;margin-top:4px"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+        <div class="col g8">
+          <div class="row g8"><span style="font-size:24px;font-weight:600">This week</span><span style="font-size:14px;font-weight:500;color:#a8a3b8">-</span><span style="font-size:14px;font-weight:500;color:#a8a3b8">Jun 29 / Jul 5</span></div>
+          <p style="font-size:14px;color:rgba(255,255,255,.9)">26 things this week - lighter than usual, but Wednesday's carrying most of it</p>
+        </div>
+      </div>
+      <!-- Bar chart with labels -->
+      <div style="position:relative;z-index:1;padding:32px 20px 0">
+        <div style="display:flex;align-items:flex-end;gap:6px;height:100px">
+          <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div><span class="bar-lbl">M</span></div>
+          <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div><span class="bar-lbl">T</span></div>
+          <div class="bar-col"><div class="bar" style="height:68px;background:#c0453f;border:1px solid #d5d0e4"></div><span class="bar-lbl hi">W</span></div>
+          <div class="bar-col"><div class="bar" style="height:28px;background:#afa7bb"></div><span class="bar-lbl">T</span></div>
+          <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div><span class="bar-lbl">F</span></div>
+          <div class="bar-col"><div class="bar" style="height:20px;background:#afa7bb"></div><span class="bar-lbl">S</span></div>
+          <div class="bar-col"><div class="bar" style="height:14px;background:#a7b4bb"></div><span class="bar-lbl">S</span></div>
+        </div>
+        <div class="sep" style="margin-top:16px"></div>
+      </div>
+      <!-- Wednesday section -->
+      <div style="position:relative;z-index:1;padding:32px 20px 0">
+        <div class="row jb" style="margin-bottom:16px">
+          <span style="font-size:20px;font-weight:600">Wednesday</span>
+          <div class="badge-red" style="padding:4px 10px;border-radius:100px;display:flex;align-items:center">9 items · overloaded</div>
+        </div>
+        <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div class="li">
+            <div class="row g8"><span class="mi s24">ballot</span><span class="li-name">Finish Q3 deck</span></div>
+            <div class="row g6"><div class="badge-purple">Priority</div><span style="font-size:14px;color:rgba(255,255,255,.6)">9:00</span></div>
+          </div>
+          <div class="li">
+            <div class="row g8"><span class="mi s24">event</span><span class="li-name">Client call</span></div>
+            <span style="font-size:14px;color:rgba(255,255,255,.6)">10:30</span>
+          </div>
+          <div style="display:flex;justify-content:center;padding-top:8px"><span style="font-size:14px;font-weight:600;color:#9b7fd4;cursor:pointer">See all 9 ›</span></div>
+        </div>
+      </div>
+      <!-- Memorae Noticed section -->
+      <div style="position:relative;z-index:1;padding:32px 20px 0;display:flex;flex-direction:column;gap:16px">
+        <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#a8a3b8">Memorae Noticed</p>
+        <!-- Notice 1 -->
+        <div class="notice">
+          <div class="row g12" style="align-items:flex-start">
+            <span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.8)">warning</span>
+            <div class="notice-head"><p class="notice-title">Wednesday is overloaded</p><p class="notice-body">Nine items stacked between 9am and 2pm. Two could move to Thursday.</p></div>
+          </div>
+          <div class="row g12">
+            <button id="btnWedViewDay" class="cta cta-ghost" style="flex:1;padding:0">View day</button>
+            <button class="cta cta-purple" style="flex:1;padding:0">Rebalance</button>
+          </div>
+        </div>
+        <!-- Notice 2 -->
+        <div class="notice">
+          <div class="row g12" style="align-items:flex-start">
+            <span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.7)">add_alert</span>
+            <div class="notice-head"><p class="notice-title">3 reminders have no time set</p><p class="notice-body">They won't notify you until you give them a time.</p></div>
+          </div>
+          <button class="cta cta-ghost w100" style="padding:0">Set times</button>
+        </div>
+        <!-- Notice 3 -->
+        <div class="notice">
+          <div class="row g12" style="align-items:flex-start">
+            <span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.7)">ballot</span>
+            <div class="notice-head"><p class="notice-title">Two free evenings ;)</p><p class="notice-body">Thu &amp; Fri after 6pm</p></div>
+          </div>
+        </div>
+      </div>
+      <!-- spacer for bottom nav -->
+      <div style="height:100px"></div>
+    </div>
+    <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+    <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+  </div>
+
+  <!-- ⑨ Today Full Day ─────────────────── -->
+  <div class="ps" id="s-today">
+    <div class="bg-photo"></div><div class="bg-overlay"></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;padding:52px 20px 120px;gap:32px">
+      <!-- Nav -->
+      <div class="row jb" style="padding:12px 0">
+        <div class="row g16" style="align-items:flex-start">
+          <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+          <div class="col g8">
+            <span style="font-size:24px;font-weight:700">Today</span>
+            <span style="font-size:16px;font-weight:500;color:#a8a3b8">Tuesday, June 29</span>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:100px;padding:4px 12px"><span style="font-size:14px;font-weight:600;color:#a8a3b8">5 items</span></div>
+      </div>
+      <!-- Task list -->
+      <div class="col g12">
+        <div class="section-hdr">Morning</div>
+        <div class="task-card overdue">
+          <div class="tc-left"><span class="mi s32" style="color:#ff9090">ballot</span><span class="tc-name">Send invoice</span></div>
+          <span class="tc-time" style="color:#fff">2 days overdue</span>
+        </div>
+        <div class="task-card">
+          <div class="tc-left"><span class="mi s32">add_alert</span><span class="tc-name">Drink water</span></div>
+          <span class="tc-time">10:00</span>
+        </div>
+        <div class="section-hdr mt">Afternoon</div>
+        <div class="task-card">
+          <div class="tc-left"><span class="mi s32">add_alert</span><span class="tc-name">Call mom</span></div>
+          <span class="tc-time">12:00</span>
+        </div>
+        <div class="task-card">
+          <div class="tc-left"><span class="mi s32">event</span><span class="tc-name">Team sync</span></div>
+          <span class="tc-time">15:30</span>
+        </div>
+        <div class="section-hdr mt">Done Today</div>
+        <div class="task-card" style="opacity:.4">
+          <div class="tc-left"><span class="mi s32">ballot</span><span class="tc-name done">Morning workout</span></div>
+          <span class="tc-time"></span>
+        </div>
+      </div>
+    </div>
+    <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+    <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+  </div>
+
+</div><!-- /device -->
+
+<script>
+  let protoTimer = null;
+  const history = ['s-empty'];
+
+  function show(id, push) {
+    clearTimeout(protoTimer);
+    if (push) history.push(id);
+    document.querySelectorAll('.ps').forEach(el => el.classList.remove('active'));
+    if (id !== 's-briefing') {
+      const b = document.getElementById('s-briefing');
+      if (b) b.scrollTop = 0;
+    }
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+    document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.s === id));
+    if (id === 's-confirmed') startProgress();
+    if (id !== 's-adding') {
+      const inp = document.getElementById('taskInput');
+      if (inp) { inp.value = ''; document.getElementById('nlpHint').textContent = ''; }
+    }
+  }
+
+  function goBack() {
+    if (history.length <= 1) return;
+    history.pop();
+    show(history[history.length - 1], false);
+  }
+
+  function startProgress() {
+    const bar = document.getElementById('progBar');
+    bar.style.transition = 'none'; bar.style.width = '0%';
+    bar.getBoundingClientRect();
+    bar.style.transition = 'width 3s linear'; bar.style.width = '100%';
+    protoTimer = setTimeout(() => {
+      const idx = history.lastIndexOf('s-confirmed');
+      if (idx !== -1) history.splice(idx, 1);
+      show('s-heavyf', true);
+    }, 3000);
+  }
+
+  // Chip clicks
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      history.length = 0; history.push(chip.dataset.s);
+      show(chip.dataset.s, false);
+      if (chip.dataset.s === 's-adding') setTimeout(() => document.getElementById('taskInput').focus(), 40);
+    });
+  });
+
+  // Back
+  document.getElementById('btnBack').addEventListener('click', goBack);
+  document.getElementById('btnCloseCard').addEventListener('click', goBack);
+
+  // Create a... buttons
+  ['btnEmptyCreate','btnLightCreate','btnHeavyCreate','btnHeavyfCreate','btnWeekEmptyCreate'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => {
+      show('s-adding', true);
+      setTimeout(() => document.getElementById('taskInput').focus(), 40);
+    });
+  });
+
+  // See full day buttons
+  ['btnLightDay','btnHeavyDay','btnHeavyfDay','btnWedViewDay'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => show('s-today', true));
+  });
+
+  // View full week buttons
+  ['btnLightWeek','btnHeavyWeek','btnHeavyfWeek'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => show('s-briefing', true));
+  });
+
+  // Confirm → Task Confirmed
+  document.getElementById('btnConfirm').addEventListener('click', () => show('s-confirmed', true));
+
+  // Done → skip progress, go to Heavy User Full
+  document.getElementById('btnConfirmedDone').addEventListener('click', () => {
+    clearTimeout(protoTimer);
+    const idx = history.lastIndexOf('s-confirmed');
+    if (idx !== -1) history.splice(idx, 1);
+    show('s-heavyf', true);
+  });
+
+  // Edit → back to Adding a Task
+  document.getElementById('btnEdit').addEventListener('click', () => {
+    clearTimeout(protoTimer);
+    const idx = history.lastIndexOf('s-confirmed');
+    if (idx !== -1) history.splice(idx, 1);
+    show('s-adding', true);
+    setTimeout(() => document.getElementById('taskInput').focus(), 40);
+  });
+
+  // Keyboard
+  document.getElementById('proto-kb').addEventListener('click', e => {
+    const k = e.target.dataset.k;
+    if (k === undefined) return;
+    const inp = document.getElementById('taskInput');
+    if (k === 'del') inp.value = inp.value.slice(0, -1);
+    else if (k === ' ') inp.value += ' ';
+    else if (k === 'return') document.getElementById('btnConfirm').click();
+    else if (k.length === 1) inp.value += k;
+    updateHint(inp.value);
+    inp.focus();
+  });
+
+  function updateHint(val) {
+    const h = document.getElementById('nlpHint');
+    if (!val.trim()) { h.textContent = ''; return; }
+    if (/\b(remind|remember|don.{0,3}forget)\b/i.test(val))              h.textContent = 'Setting a reminder';
+    else if (/\b(meet|call|lunch|appointment|at \d|dinner)\b/i.test(val)) h.textContent = 'Adding a calendar event';
+    else if (/\b(buy|get|pick up|order|send)\b/i.test(val))              h.textContent = 'Creating a task';
+    else                                                                    h.textContent = 'Creating a task';
+  }
+
+  document.getElementById('taskInput').addEventListener('input', e => updateHint(e.target.value));
+
+  // Keydown on home screens → jump to Adding a Task
+  document.addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
+         'Escape','Tab','Enter','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) return;
+    const homeScreens = ['s-empty','s-heavy','s-heavyf','s-light'];
+    const onHome = homeScreens.some(id => document.getElementById(id)?.classList.contains('active'));
+    if (!onHome) return;
+    show('s-adding', true);
+    const inp = document.getElementById('taskInput');
+    inp.focus();
+    if (e.key === 'Backspace') { e.preventDefault(); return; }
+    if (e.key.length === 1) { inp.value += e.key; updateHint(inp.value); e.preventDefault(); }
+  });
+
+  // Wheel → scroll briefing
+  document.getElementById('device').addEventListener('wheel', e => {
+    const b = document.getElementById('s-briefing');
+    if (b && b.classList.contains('active')) { b.scrollTop += e.deltaY; e.preventDefault(); }
+  }, { passive: false });
+</script>
+</body>
+</html>
