@@ -526,7 +526,7 @@
         <div class="proto__chips">
           <button class="proto__chip active" data-screen="ps-empty">Empty State</button>
           <button class="proto__chip" data-screen="ps-image" data-img="screen-light-user.png">Light User</button>
-          <button class="proto__chip" data-screen="ps-image" data-img="screen-heavy-user2.png">Heavy User</button>
+          <button class="proto__chip" data-screen="ps-heavy">Heavy User</button>
           <button class="proto__chip" data-screen="ps-image" data-img="screen-office.png">Heavy User — Full</button>
           <button class="proto__chip" data-screen="ps-adding">Adding a Task</button>
           <button class="proto__chip" data-screen="ps-confirmed">Task Confirmed</button>
@@ -536,38 +536,44 @@
         </div>
         <div class="proto__device">
 
-          <!-- ① Empty State — real button -->
+          <!-- Global back button — sits above all screens at the < position -->
+          <button id="btnBack" style="position:absolute;left:14px;top:46px;width:46px;height:46px;background:transparent;border:none;cursor:pointer;border-radius:100px;z-index:10;"></button>
+
+          <!-- ① Empty State -->
           <div class="ps active" id="ps-empty">
             <img class="ps-bg" src="screen-office-2.png" alt="">
             <button id="btnCreate" style="position:absolute;left:20px;top:335px;width:362px;height:52px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
           </div>
 
-          <!-- ② Adding a Task — real input + confirm -->
+          <!-- ② Adding a Task — input fills image input border; no separate cover needed -->
           <div class="ps" id="ps-adding">
             <img class="ps-bg" src="screen-adding-task.png" alt="">
-            <!-- erase static "call mom…" text from image -->
-            <div class="ps-cover" style="left:36px;top:168px;width:330px;height:44px;background:#2e2c46;border-radius:12px;border:1.5px solid rgba(155,127,212,0.55);"></div>
-            <!-- erase static NLP hint from image -->
-            <div class="ps-cover" style="left:36px;top:218px;width:330px;height:22px;background:#2a2840;"></div>
-            <!-- real input -->
+            <!-- fills just the inner text area of the image's bordered input field -->
             <input id="taskInput" type="text" autocomplete="off" spellcheck="false"
-              style="position:absolute;left:46px;top:173px;width:310px;height:34px;background:transparent;border:none;outline:none;color:#ffffff;font-family:'Inter',sans-serif;font-size:15px;font-weight:400;caret-color:#9b7fd4;">
-            <!-- real NLP hint -->
-            <div id="nlpHint" style="position:absolute;left:36px;top:220px;width:330px;height:18px;font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.48);pointer-events:none;"></div>
-            <!-- transparent overlay on the purple "Create" button in the image -->
-            <button id="btnConfirm" style="position:absolute;left:36px;top:286px;width:330px;height:48px;background:transparent;border:none;cursor:pointer;border-radius:26px;"></button>
+              style="position:absolute;left:38px;top:170px;width:326px;height:38px;background:#1f1d38;border:none;outline:none;color:#fff;font-family:'Inter',sans-serif;font-size:15px;padding:0 12px;caret-color:#9b7fd4;">
+            <!-- covers static "Setting a reminder..." hint text from the image -->
+            <div id="nlpHint" style="position:absolute;left:38px;top:214px;width:326px;height:22px;background:#2d2b47;font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.48);line-height:22px;padding:0 0;pointer-events:none;"></div>
+            <button id="btnConfirm" style="position:absolute;left:36px;top:268px;width:330px;height:50px;background:transparent;border:none;cursor:pointer;border-radius:26px;"></button>
           </div>
 
-          <!-- ③ Task Confirmed — animated progress bar -->
+          <!-- ③ Task Confirmed — bar fills left→right, then auto-goes to Heavy User -->
           <div class="ps" id="ps-confirmed">
             <img class="ps-bg" src="screen-task-confirmed.png" alt="">
-            <!-- progress bar track (covers static bar in image while animating) -->
-            <div id="progTrack" style="position:absolute;left:36px;top:119px;width:330px;height:3px;background:rgba(155,127,212,0.22);border-radius:2px;">
-              <div id="progBar" style="height:100%;width:100%;background:#9b7fd4;border-radius:2px;"></div>
+            <!-- opaque track covers the static partial bar in the image -->
+            <div id="progTrack" style="position:absolute;left:36px;top:119px;width:330px;height:3px;background:#27253d;border-radius:2px;">
+              <div id="progBar" style="height:100%;width:0%;background:#9b7fd4;border-radius:2px;"></div>
             </div>
           </div>
 
-          <!-- Static image for non-interactive screens -->
+          <!-- ④ Heavy User — interactive: Create a..., See full day, View full week -->
+          <div class="ps" id="ps-heavy">
+            <img class="ps-bg" src="screen-heavy-user2.png" alt="">
+            <button id="btnHeavyCreate" style="position:absolute;left:20px;top:200px;width:150px;height:42px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
+            <button id="btnSeeFullDay" style="position:absolute;left:36px;top:463px;width:330px;height:46px;background:transparent;border:none;cursor:pointer;border-radius:22px;"></button>
+            <button id="btnViewFullWeek" style="position:absolute;left:214px;top:538px;width:165px;height:36px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
+          </div>
+
+          <!-- Static image for view-only screens -->
           <img id="ps-image" src="" alt="" style="height:874px;object-fit:cover;object-position:top;">
 
         </div>
@@ -588,11 +594,13 @@
 
     // ── Prototype ──────────────────────────────────────────────────────────
     let protoTimer = null;
+    // history stack — each entry: "screenId:imgSrc" (imgSrc is '' when none)
+    const navHistory = ['ps-empty:'];
 
-    function showScreen(screenId, imgSrc) {
+    function showScreen(screenId, imgSrc, push) {
       clearTimeout(protoTimer);
+      if (push) navHistory.push(screenId + ':' + (imgSrc || ''));
 
-      // hide all ps divs
       document.querySelectorAll('.ps').forEach(el => el.classList.remove('active'));
       const psImg = document.getElementById('ps-image');
       psImg.classList.remove('active');
@@ -605,83 +613,110 @@
         if (el) el.classList.add('active');
       }
 
-      // sync chips
       document.querySelectorAll('.proto__chip').forEach(c => {
         const match = c.dataset.screen === screenId &&
           (screenId !== 'ps-image' || c.dataset.img === imgSrc);
         c.classList.toggle('active', match);
       });
 
-      // start progress bar when Task Confirmed becomes active
+      // progress bar fills left → right over 3s, then lands on Heavy User
       if (screenId === 'ps-confirmed') {
         const bar = document.getElementById('progBar');
         bar.style.transition = 'none';
-        bar.style.width = '100%';
-        bar.getBoundingClientRect(); // force reflow
-        bar.style.transition = 'width 3s linear';
         bar.style.width = '0%';
-        protoTimer = setTimeout(() => showScreen('ps-image', 'screen-office.png'), 3000);
+        bar.getBoundingClientRect();
+        bar.style.transition = 'width 3s linear';
+        bar.style.width = '100%';
+        protoTimer = setTimeout(() => showScreen('ps-heavy', null, false), 3000);
       }
 
-      // reset input when returning to empty state
-      if (screenId === 'ps-empty') {
+      if (screenId !== 'ps-adding') {
         document.getElementById('taskInput').value = '';
         document.getElementById('nlpHint').textContent = '';
       }
     }
 
-    // Chip navigation
+    function goBack() {
+      if (navHistory.length <= 1) return;
+      navHistory.pop();
+      const prev  = navHistory[navHistory.length - 1];
+      const colon = prev.indexOf(':');
+      const id    = prev.slice(0, colon);
+      const img   = prev.slice(colon + 1) || null;
+      showScreen(id, img, false);
+    }
+
+    // Chip clicks reset history to a single entry
     document.querySelectorAll('.proto__chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        showScreen(chip.dataset.screen, chip.dataset.img);
+        navHistory.length = 0;
+        navHistory.push(chip.dataset.screen + ':' + (chip.dataset.img || ''));
+        showScreen(chip.dataset.screen, chip.dataset.img, false);
         if (chip.dataset.screen === 'ps-adding') {
           setTimeout(() => document.getElementById('taskInput').focus(), 40);
         }
       });
     });
 
-    // Empty State CTA → Adding a Task
+    // Global back button
+    document.getElementById('btnBack').addEventListener('click', goBack);
+
+    // Empty State → Adding a Task
     document.getElementById('btnCreate').addEventListener('click', () => {
-      showScreen('ps-adding');
+      showScreen('ps-adding', null, true);
       setTimeout(() => document.getElementById('taskInput').focus(), 40);
     });
 
-    // Confirm button → Task Confirmed
+    // Heavy User: Create a... → Adding a Task
+    document.getElementById('btnHeavyCreate').addEventListener('click', () => {
+      showScreen('ps-adding', null, true);
+      setTimeout(() => document.getElementById('taskInput').focus(), 40);
+    });
+
+    // Heavy User: See full day → Today
+    document.getElementById('btnSeeFullDay').addEventListener('click', () => {
+      showScreen('ps-image', 'screen-today.png', true);
+    });
+
+    // Heavy User: View full week → Weekly Briefing
+    document.getElementById('btnViewFullWeek').addEventListener('click', () => {
+      showScreen('ps-image', 'screen-weekly-briefing.png', true);
+    });
+
+    // Confirm → Task Confirmed
     document.getElementById('btnConfirm').addEventListener('click', () => {
-      showScreen('ps-confirmed');
+      showScreen('ps-confirmed', null, true);
     });
 
     // NLP parse hint
     function updateNlpHint(val) {
       const hint = document.getElementById('nlpHint');
       if (!val.trim()) { hint.textContent = ''; return; }
-      if (/\b(remind|remember|don.{0,3}forget)\b/i.test(val))       hint.textContent = 'Setting a reminder';
+      if (/\b(remind|remember|don.{0,3}forget)\b/i.test(val))            hint.textContent = 'Setting a reminder';
       else if (/\b(meet|call|lunch|appointment|at \d|dinner)\b/i.test(val)) hint.textContent = 'Adding a calendar event';
-      else if (/\b(buy|get|pick up|order|send)\b/i.test(val))       hint.textContent = 'Creating a task';
-      else                                                            hint.textContent = 'Creating a task';
+      else if (/\b(buy|get|pick up|order|send)\b/i.test(val))            hint.textContent = 'Creating a task';
+      else                                                                 hint.textContent = 'Creating a task';
     }
 
     document.getElementById('taskInput').addEventListener('input', e => {
       updateNlpHint(e.target.value);
     });
 
-    // Keypress on Empty State → go to Adding a Task and type first char
+    // Keydown on Empty State or Heavy User → jump to Adding a Task
     document.addEventListener('keydown', e => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
            'Escape','Tab','Enter','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) return;
-      const emptyEl = document.getElementById('ps-empty');
-      if (emptyEl && emptyEl.classList.contains('active')) {
-        showScreen('ps-adding');
-        const inp = document.getElementById('taskInput');
-        inp.focus();
-        if (e.key === 'Backspace') { e.preventDefault(); return; }
-        if (e.key.length === 1) {
-          inp.value += e.key;
-          updateNlpHint(inp.value);
-          e.preventDefault();
-        }
-      }
+      const onTrigger = ['ps-empty','ps-heavy'].some(id => {
+        const el = document.getElementById(id);
+        return el && el.classList.contains('active');
+      });
+      if (!onTrigger) return;
+      showScreen('ps-adding', null, true);
+      const inp = document.getElementById('taskInput');
+      inp.focus();
+      if (e.key === 'Backspace') { e.preventDefault(); return; }
+      if (e.key.length === 1) { inp.value += e.key; updateNlpHint(inp.value); e.preventDefault(); }
     });
   </script>
 
