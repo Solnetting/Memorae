@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style>
   :root{
     --ink:#1c1a24;
@@ -326,73 +327,102 @@
 
   /* ---------- prototype ---------- */
   .proto-section{padding:62px 0;border-top:1px solid var(--line)}
-  .proto{
-    margin-top:40px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:32px;
-  }
-  .proto__chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    justify-content:center;
-    max-width:var(--maxw);
-    padding:0 24px;
-  }
+  .proto{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:32px}
+  .proto__chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:var(--maxw);padding:0 24px}
   .proto__chip{
-    font-family:'Inter',system-ui,sans-serif;
-    font-size:13.5px;
-    font-weight:500;
-    color:var(--ink-soft);
-    background:var(--paper-2);
-    border:1px solid var(--line);
-    padding:7px 16px;
-    border-radius:40px;
-    cursor:pointer;
+    font-family:'Inter',system-ui,sans-serif;font-size:13.5px;font-weight:500;
+    color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);
+    padding:7px 16px;border-radius:40px;cursor:pointer;
     transition:background .15s,color .15s,border-color .15s;
   }
-  .proto__chip:hover{
-    border-color:var(--accent);
-    color:var(--accent);
-  }
-  .proto__chip.active{
-    background:var(--ink);
-    border-color:var(--ink);
-    color:#fff;
-  }
+  .proto__chip:hover{border-color:var(--accent);color:var(--accent)}
+  .proto__chip.active{background:var(--ink);border-color:var(--ink);color:#fff}
   .proto__device{
-    width:280px;
-    height:609px;
-    position:relative;
-    overflow:hidden;
-    border-radius:36px;
-    box-shadow:0 32px 80px rgba(28,26,36,.22),0 8px 24px rgba(28,26,36,.12);
-    /* force GPU compositing so border-radius properly clips transformed children */
+    width:280px;height:609px;position:relative;overflow:hidden;border-radius:36px;
+    box-shadow:0 32px 80px rgba(0,0,0,.55),0 8px 24px rgba(0,0,0,.3);
     transform:translate3d(0,0,0);
   }
-  .ps{
-    position:absolute;
-    top:0;left:0;
-    width:402px;
-    height:874px;
-    transform:scale(0.6965);
-    transform-origin:top left;
-    display:none;
-  }
+  /* ── Screen base ── */
+  .ps{position:absolute;top:0;left:0;width:402px;height:874px;transform:scale(0.6965);transform-origin:top left;display:none;overflow:hidden}
   .ps.active{display:block}
-  .ps>.ps-bg{width:402px;height:874px;display:block}
-  .ps-cover{position:absolute}
-  #ps-image{
-    position:absolute;
-    top:0;left:0;
-    width:402px;
-    transform:scale(0.6965);
-    transform-origin:top left;
-    display:none;
-  }
-  #ps-image.active{display:block}
+  /* ── Backgrounds ── */
+  .bg-photo{position:absolute;inset:0;background:url('bg-office.jpg') center/cover no-repeat}
+  .bg-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(60px);-webkit-backdrop-filter:blur(60px)}
+  .bg-gradient{position:absolute;inset:0;background:linear-gradient(175deg,#302f48 0%,#37364e 18%,#3b3849 45%,#3c3843 70%,#382e38 100%)}
+  .bg-week-empty{position:absolute;inset:0;background:linear-gradient(180deg,#2e2c3e 0%,#201e2c 55%,#161523 100%)}
+  /* ── Material Symbols ── */
+  .mi{font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size:20px;line-height:1;user-select:none;display:inline-block;flex-shrink:0}
+  .mi.f{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+  .mi.s32{font-size:32px}.mi.s24{font-size:24px}.mi.s18{font-size:18px}.mi.s14{font-size:14px}
+  /* ── Layout helpers ── */
+  .row{display:flex;align-items:center}.col{display:flex;flex-direction:column}
+  .jb{justify-content:space-between}
+  .g4{gap:4px}.g6{gap:6px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}.g32{gap:32px}
+  .w100{width:100%}
+  /* ── Phone header ── */
+  .ps-header{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .btn-circle{width:40px;height:40px;border-radius:100px;flex-shrink:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .switcher{width:120px;height:40px;border-radius:100px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);display:flex;align-items:center;padding:3px;flex-shrink:0}
+  .sw-tab{flex:1;height:100%;border-radius:100px;display:flex;align-items:center;justify-content:center}
+  .sw-tab.on{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1)}
+  .ps-body{position:relative;z-index:1;display:flex;flex-direction:column;padding:52px 20px 100px;height:874px;gap:24px}
+  /* ── Glass card ── */
+  .glass{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:32px;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+  /* ── CTAs ── */
+  .cta{height:44px;border-radius:26px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 24px;font-size:15px;font-weight:700;cursor:pointer;flex-shrink:0;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15)}
+  .cta-purple{background:#9b7fd4;color:#fff}
+  .cta-ghost{background:rgba(255,255,255,.12);color:#fff;font-weight:500}
+  /* ── List items ── */
+  .li{background:rgba(255,255,255,.1);border-radius:8px;padding:8px;display:flex;align-items:center;justify-content:space-between}
+  .li-name{font-size:14px;font-weight:600;color:#fff}
+  .li-time{font-size:14px;font-weight:400;color:#fff;white-space:nowrap}
+  .li-overdue{background:rgba(192,69,63,.3)}
+  /* ── Badges ── */
+  .badge{background:rgba(255,255,255,.1);border-radius:100px;padding:2px 8px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap}
+  .badge-red{background:rgba(192,69,63,.25);border:1px solid #c0453f;color:#ffbfc0}
+  .badge-purple{background:rgba(155,127,212,.25);border-radius:4px;padding:2px 6px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#d1c4ff}
+  /* ── Bar chart ── */
+  .bars{display:flex;align-items:flex-end;gap:6px;height:68px;width:100%}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px}
+  .bar{width:100%;border-radius:4px}
+  .bar-lbl{font-size:14px;font-weight:400;color:#a8a3b8;line-height:1}
+  .bar-lbl.hi{font-weight:800;color:#fff}
+  .sep{height:1px;background:rgba(255,255,255,.15);width:100%;flex-shrink:0}
+  .sep-txt{display:flex;align-items:center;gap:12px}
+  .sep-txt .sep{flex:1}
+  .sep-txt span{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap}
+  /* ── Bottom nav ── */
+  .ps-nav{position:absolute;bottom:0;left:0;right:0;padding:0 20px 32px;z-index:10}
+  .nav-bar{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:32px;height:60px;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;backdrop-filter:blur(2px)}
+  /* ── Mascot ── */
+  .mascot{position:absolute;right:12px;width:63px;height:58px;object-fit:cover;pointer-events:none;z-index:5}
+  /* ── Suggestion rows ── */
+  .suggest{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:14px}
+  .suggest p{font-size:15px;font-weight:500;color:#fff;flex:1}
+  /* ── Task cards ── */
+  .task-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:16px;padding:16px;display:flex;align-items:center;justify-content:space-between}
+  .task-card.overdue{background:rgba(255,20,0,.25)}
+  .tc-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+  .tc-name{font-size:18px;font-weight:500;color:#fff}
+  .tc-name.done{text-decoration:line-through}
+  .tc-time{font-size:14px;font-weight:500;color:#a8a3b8;white-space:nowrap}
+  .section-hdr{font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#a8a3b8;padding:0 4px 8px}
+  .section-hdr.mt{padding-top:16px}
+  /* ── Notice cards ── */
+  .notice{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:32px;padding:16px;display:flex;flex-direction:column;gap:16px;backdrop-filter:blur(2px)}
+  .notice-head{display:flex;flex-direction:column;gap:4px}
+  .notice-title{font-size:16px;font-weight:700;color:#fff}
+  .notice-body{font-size:14px;font-weight:400;color:#a8a3b8;line-height:20px}
+  /* ── Progress bar ── */
+  #progTrack{position:absolute;left:0;right:0;top:68px;height:3px;background:rgba(155,127,212,.18);border-radius:2px;z-index:2}
+  #progBar{height:100%;width:0%;background:#9b7fd4;border-radius:2px;transition:none}
+  /* ── Keyboard ── */
+  #proto-kb{position:absolute;left:0;right:0;bottom:0;height:238px;background:#1c1c1e;padding:10px 3px 6px;display:flex;flex-direction:column;gap:10px}
+  .kb-row{display:flex;gap:5px}
+  .k{flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer}
+  .k.wide{flex:1.5;background:#3a3a3c}
+  .k.wider{flex:5;background:#4a4a4e;color:rgba(255,255,255,.4)}
+  .k.small{font-size:13px}
 
   /* ---------- inline shots ---------- */
   .shot{margin:30px 0 4px;border-radius:22px;overflow:hidden;background:#1a1825;border:1px solid var(--line)}
@@ -576,125 +606,346 @@
       </div>
       <div class="proto">
         <div class="proto__chips">
-          <button class="proto__chip active" data-screen="ps-empty">Empty State</button>
-          <button class="proto__chip" data-screen="ps-image" data-img="screen-light-user.png">Light User</button>
-          <button class="proto__chip" data-screen="ps-heavy">Heavy User</button>
-          <button class="proto__chip" data-screen="ps-image" data-img="screen-office.png">Heavy User — Full</button>
-          <button class="proto__chip" data-screen="ps-adding">Adding a Task</button>
-          <button class="proto__chip" data-screen="ps-confirmed">Task Confirmed</button>
-          <button class="proto__chip" data-screen="ps-image" data-img="screen-126-554.png">This Week — Empty</button>
-          <button class="proto__chip" data-screen="ps-briefing">Weekly Briefing</button>
-          <button class="proto__chip" data-screen="ps-image" data-img="screen-today.png">Today</button>
+          <button class="proto__chip active" data-s="s-empty">Empty State</button>
+          <button class="proto__chip" data-s="s-light">Light User</button>
+          <button class="proto__chip" data-s="s-heavy">Heavy User</button>
+          <button class="proto__chip" data-s="s-heavyf">Heavy User — Full</button>
+          <button class="proto__chip" data-s="s-adding">Adding a Task</button>
+          <button class="proto__chip" data-s="s-confirmed">Task Confirmed</button>
+          <button class="proto__chip" data-s="s-weekempty">This Week — Empty</button>
+          <button class="proto__chip" data-s="s-briefing">Weekly Briefing</button>
+          <button class="proto__chip" data-s="s-today">Today</button>
         </div>
         <div class="proto__device">
 
-          <!-- Global back button — matches nav bar position in all screens -->
-          <button id="btnBack" style="position:absolute;left:14px;top:20px;width:46px;height:46px;background:transparent;border:none;cursor:pointer;border-radius:100px;z-index:10;"></button>
+          <button id="btnBack" style="position:absolute;left:14px;top:20px;width:40px;height:40px;background:transparent;border:none;cursor:pointer;z-index:30;border-radius:100px;"></button>
 
           <!-- ① Empty State -->
-          <div class="ps active" id="ps-empty">
-            <img class="ps-bg" src="screen-office-2.png" alt="">
-            <button id="btnCreate" style="position:absolute;left:20px;top:335px;width:362px;height:52px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
-          </div>
-
-          <!-- ② Adding a Task — 100% HTML, zero images -->
-          <div class="ps" id="ps-adding">
-            <!-- gradient background matching dark office photo overlay -->
-            <div style="position:absolute;inset:0;background:linear-gradient(175deg,#302f48 0%,#37364e 18%,#3b3849 45%,#3c3843 70%,#382e38 100%);"></div>
-            <!-- nav bar -->
-            <div style="position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;">
-              <button id="btnCloseCard" style="width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.13);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
-                <svg width="9" height="15" viewBox="0 0 9 15" fill="none"><path d="M7.5 1.5L2 7.5L7.5 13.5" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div style="background:rgba(255,255,255,0.13);border-radius:100px;padding:9px 18px;display:flex;gap:14px;align-items:center;">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="7" width="15" height="11" rx="2" stroke="white" stroke-width="1.6"/><path d="M7 7V5.5a1 1 0 011-1h4a1 1 0 011 1V7" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L4.5 10.5H9L7 18h6l-2-7.5H15L10 2z" stroke="rgba(255,255,255,0.4)" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <div class="ps active" id="s-empty">
+            <div class="bg-photo"></div><div class="bg-overlay"></div>
+            <div class="ps-body" style="gap:32px">
+              <div class="ps-header">
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+                <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
               </div>
-              <div style="width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 7L4.5 9.5H3v1h1.5L8 13V7z" fill="rgba(255,255,255,0.6)"/><path d="M10.5 9.5a2 2 0 010 1M12.5 7.5a5 5 0 010 5" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/></svg>
-              </div>
-            </div>
-            <!-- glass card -->
-            <div style="position:absolute;left:16px;top:110px;right:16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:24px;padding:20px 16px 20px;box-sizing:border-box;">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-                <span style="font-family:'Inter',sans-serif;font-size:17px;font-weight:600;color:#fff;">Create a...</span>
-                <span style="color:rgba(255,255,255,0.45);font-size:22px;line-height:1;cursor:pointer;" onclick="document.getElementById('btnCloseCard').click()">×</span>
-              </div>
-              <input id="taskInput" type="text" autocomplete="off" spellcheck="false" placeholder=""
-                style="width:100%;height:42px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(155,127,212,0.65);border-radius:12px;outline:none;color:#fff;font-family:'Inter',sans-serif;font-size:15px;padding:0 12px;caret-color:#9b7fd4;box-sizing:border-box;">
-              <div id="nlpHint" style="height:20px;margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.45);"></div>
-              <button id="btnConfirm" style="width:100%;height:44px;background:#9b7fd4;border:none;border-radius:26px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px;">Create</button>
-            </div>
-            <!-- keyboard (HTML, keys type into input) -->
-            <div id="proto-kb" style="position:absolute;left:0;right:0;bottom:0;height:238px;background:#1c1c1e;padding:10px 3px 6px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;">
-              <div style="display:flex;gap:5px;">
-                <span data-k="q" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">q</span><span data-k="w" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">w</span><span data-k="e" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">e</span><span data-k="r" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">r</span><span data-k="t" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">t</span><span data-k="y" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">y</span><span data-k="u" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">u</span><span data-k="i" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">i</span><span data-k="o" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">o</span><span data-k="p" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">p</span>
-              </div>
-              <div style="display:flex;gap:5px;padding:0 18px;">
-                <span data-k="a" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">a</span><span data-k="s" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">s</span><span data-k="d" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">d</span><span data-k="f" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">f</span><span data-k="g" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">g</span><span data-k="h" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">h</span><span data-k="j" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">j</span><span data-k="k" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">k</span><span data-k="l" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">l</span>
-              </div>
-              <div style="display:flex;gap:5px;">
-                <span data-k="⇧" style="flex:1.5;height:42px;background:#3a3a3c;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">⇧</span><span data-k="z" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">z</span><span data-k="x" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">x</span><span data-k="c" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">c</span><span data-k="v" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">v</span><span data-k="b" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">b</span><span data-k="n" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">n</span><span data-k="m" style="flex:1;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">m</span><span data-k="del" style="flex:1.5;height:42px;background:#3a3a3c;border-radius:5px;display:flex;align-items:center;justify-content:center;font:15px 'Inter',sans-serif;color:#fff;cursor:pointer;">⌫</span>
-              </div>
-              <div style="display:flex;gap:5px;">
-                <span data-k="123" style="flex:1.5;height:42px;background:#3a3a3c;border-radius:5px;display:flex;align-items:center;justify-content:center;font:13px 'Inter',sans-serif;color:#fff;cursor:pointer;">123</span><span data-k=" " style="flex:5;height:42px;background:#4a4a4e;border-radius:5px;display:flex;align-items:center;justify-content:center;font:13px 'Inter',sans-serif;color:rgba(255,255,255,0.4);cursor:pointer;">space</span><span data-k="return" style="flex:1.5;height:42px;background:#3a3a3c;border-radius:5px;display:flex;align-items:center;justify-content:center;font:13px 'Inter',sans-serif;color:#fff;cursor:pointer;">return</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ③ Task Confirmed — 100% HTML, no image, no duplication -->
-          <div class="ps" id="ps-confirmed">
-            <!-- same gradient as ps-adding -->
-            <div style="position:absolute;inset:0;background:linear-gradient(175deg,#302f48 0%,#37364e 18%,#3b3849 45%,#3c3843 70%,#382e38 100%);"></div>
-            <!-- nav bar (same visual as ps-adding — #btnBack handles the click) -->
-            <div style="position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;">
-              <div style="width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;">
-                <svg width="9" height="15" viewBox="0 0 9 15" fill="none"><path d="M7.5 1.5L2 7.5L7.5 13.5" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div style="background:rgba(255,255,255,0.13);border-radius:100px;padding:9px 18px;display:flex;gap:14px;align-items:center;">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="7" width="15" height="11" rx="2" stroke="white" stroke-width="1.6"/><path d="M7 7V5.5a1 1 0 011-1h4a1 1 0 011 1V7" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L4.5 10.5H9L7 18h6l-2-7.5H15L10 2z" stroke="rgba(255,255,255,0.4)" stroke-width="1.6" stroke-linejoin="round"/></svg>
-              </div>
-              <div style="width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 7L4.5 9.5H3v1h1.5L8 13V7z" fill="rgba(255,255,255,0.6)"/><path d="M10.5 9.5a2 2 0 010 1M12.5 7.5a5 5 0 010 5" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/></svg>
-              </div>
-            </div>
-            <!-- single animated progress bar — the only one, no image to clash with -->
-            <div id="progTrack" style="position:absolute;left:0;right:0;top:68px;height:3px;background:rgba(155,127,212,0.18);border-radius:2px;">
-              <div id="progBar" style="height:100%;width:0%;background:#9b7fd4;border-radius:2px;transition:none;"></div>
-            </div>
-            <!-- Reminder created card -->
-            <div style="position:absolute;left:16px;right:16px;top:92px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:24px;padding:20px 16px;box-sizing:border-box;">
-              <p style="font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:#fff;margin:0 0 16px;">Reminder created</p>
-              <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:12px;display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)" style="flex-shrink:0;margin-top:2px;"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                <div>
-                  <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#fff;margin:0 0 3px;">Call mom</p>
-                  <p style="font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin:0;">Tomorrow, 6:00pm · notifies on WhatsApp and 2+</p>
+              <div class="col g24" style="align-items:center;flex:1">
+                <img src="memorae-avatar.png" alt="Memorae" style="width:96px;height:88px;object-fit:cover">
+                <div class="col g12" style="text-align:center">
+                  <p style="font-size:24px;font-weight:600">Nothing on your plate yet.</p>
+                  <p style="font-size:15px;color:rgba(255,255,255,.7);line-height:1.5">Tell me what's on your mind — a reminder, a task, an event — and I'll keep track of it for you.</p>
+                </div>
+                <button id="btnEmptyCreate" class="cta cta-purple w100"><span class="mi s18">add</span>Create a...</button>
+                <div class="sep-txt w100"><div class="sep"></div><span>Or try one of these</span><div class="sep"></div></div>
+                <div class="col w100" style="gap:10px">
+                  <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">add_alert</span><p>Remind me to drink water at 10am</p></div>
+                  <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">ballot</span><p>Summarise my today plan</p></div>
+                  <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">ballot</span><p>Organise my week :)</p></div>
+                  <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">add_alert</span><p>Set a recurrent reminder for</p></div>
+                  <div class="suggest"><span class="mi" style="color:rgba(255,255,255,.7)">calendar_today</span><p>Create a meeting in my calendar</p></div>
                 </div>
               </div>
-              <div style="display:flex;gap:12px;">
-                <button style="flex:1;height:44px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15);border-radius:26px;color:rgba(255,255,255,0.85);font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Edit</button>
-                <button id="btnConfirmedDone" style="flex:1;height:44px;background:#9b7fd4;border:none;border-radius:26px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Done</button>
+            </div>
+            <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+          </div>
+
+          <!-- ② Light User -->
+          <div class="ps" id="s-light">
+            <div class="bg-photo"></div><div class="bg-overlay"></div>
+            <div class="ps-body">
+              <div class="ps-header">
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+                <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+              </div>
+              <div class="col g24">
+                <div class="col g8"><p style="font-size:24px;font-weight:600">The Office</p><p style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.5">Busy one today — 3 things need you before noon, starting with the overdue invoice.</p></div>
+                <button id="btnLightCreate" class="cta cta-purple" style="align-self:flex-start"><span class="mi s18">add</span>Create a...</button>
+              </div>
+              <div class="col" style="gap:20px">
+                <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+                  <div class="row jb"><span style="font-size:24px;font-weight:600">Today</span><div class="badge">3 items</div></div>
+                  <div class="col g8">
+                    <div class="li"><div class="row g4"><span class="mi s18">ballot</span><span class="li-name">Finish Q3 deck</span></div><span class="li-time">11:00</span></div>
+                    <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Team sync</span></div><span class="li-time">15:30</span></div>
+                  </div>
+                  <button id="btnLightDay" class="cta cta-ghost w100">See full day <span class="mi s18">arrow_forward_ios</span></button>
+                </div>
+                <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+                  <div class="row jb"><span style="font-size:24px;font-weight:600">This week</span><div class="badge row g4" id="btnLightWeek" style="cursor:pointer">View full week <span class="mi s14">arrow_forward</span></div></div>
+                  <div class="col g16">
+                    <div class="bars">
+                      <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:29px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:13px;background:#a7b4bb"></div></div>
+                    </div>
+                    <div class="sep"></div>
+                  </div>
+                  <div class="col g4">
+                    <span style="font-size:14px;color:#a8a3b8">Lighter week than usual</span>
+                    <div class="row g4"><span class="mi s18">add_alert</span><span style="font-size:14px;font-weight:500">Tomorrow: Dentist 9am</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+            <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+          </div>
+
+          <!-- ③ Heavy User -->
+          <div class="ps" id="s-heavy">
+            <div class="bg-photo"></div><div class="bg-overlay"></div>
+            <div class="ps-body">
+              <div class="ps-header">
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+                <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+              </div>
+              <div class="col g24">
+                <div class="col g8"><p style="font-size:24px;font-weight:600">The Office</p><p style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.5">Busy one today — 3 things need you before noon, starting with the overdue invoice.</p></div>
+                <button id="btnHeavyCreate" class="cta cta-purple" style="align-self:flex-start"><span class="mi s18">add</span>Create a...</button>
+              </div>
+              <div class="col" style="gap:20px">
+                <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+                  <div class="row jb"><span style="font-size:24px;font-weight:600">Today</span><div class="badge">3 items</div></div>
+                  <div class="col g8">
+                    <div class="li"><div class="row g4"><span class="mi s18">ballot</span><span class="li-name">Finish Q3 deck</span></div><span class="li-time">11:00</span></div>
+                    <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Team sync</span></div><span class="li-time">15:30</span></div>
+                    <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Memorae call</span></div><span class="li-time">15:30</span></div>
+                  </div>
+                  <button id="btnHeavyDay" class="cta cta-ghost w100">See full day <span class="mi s18">arrow_forward_ios</span></button>
+                </div>
+                <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+                  <div class="row jb"><span style="font-size:24px;font-weight:600">This week</span><div class="badge row g4" id="btnHeavyWeek" style="cursor:pointer">View full week <span class="mi s14">arrow_forward</span></div></div>
+                  <div class="col g16">
+                    <div class="bars">
+                      <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:68px;background:#c0453f;border:1px solid #d5d0e4"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:28px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:20px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:14px;background:#a7b4bb"></div></div>
+                    </div>
+                    <div class="sep"></div>
+                  </div>
+                  <div class="row g4" style="font-size:14px"><span class="mi s18" style="color:#f5a623">warning</span><span style="color:#fff">Wed looks packed — </span><span style="color:#9b7fd4;text-decoration:underline;cursor:pointer">Want help?</span></div>
+                </div>
+              </div>
+            </div>
+            <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+            <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+          </div>
+
+          <!-- ④ Heavy User Full -->
+          <div class="ps" id="s-heavyf">
+            <div class="bg-photo"></div><div class="bg-overlay"></div>
+            <div class="ps-body">
+              <div class="ps-header">
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+                <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+                <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+              </div>
+              <div class="col g24">
+                <div class="col g8"><p style="font-size:24px;font-weight:600">The Office</p><p style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.5">Busy one today — 3 things need you before noon, starting with the overdue invoice.</p></div>
+                <button id="btnHeavyfCreate" class="cta cta-purple" style="align-self:flex-start"><span class="mi s18">add</span>Create a...</button>
+              </div>
+              <div class="col" style="gap:20px">
+                <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+                  <div class="row jb"><span style="font-size:24px;font-weight:600">Today</span><div class="badge">14 items</div></div>
+                  <div class="col g8">
+                    <div class="li li-overdue"><div class="row g4"><span class="mi s18" style="color:#ff9090">ballot</span><span class="li-name">Send invoice</span></div><span class="li-time" style="color:#ffb0b0">2 days overdue</span></div>
+                    <div class="li"><div class="row g4"><span class="mi s18">ballot</span><span class="li-name">Finish Q3 deck</span></div><span class="li-time">11:00</span></div>
+                    <div class="li"><div class="row g4"><span class="mi s18">event</span><span class="li-name">Team sync</span></div><span class="li-time">15:30</span></div>
+                  </div>
+                  <button id="btnHeavyfDay" class="cta cta-ghost w100">See full day <span class="mi s18">arrow_forward_ios</span></button>
+                </div>
+                <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+                  <div class="row jb"><span style="font-size:24px;font-weight:600">This week</span><div class="badge row g4" id="btnHeavyfWeek" style="cursor:pointer">View full week <span class="mi s14">arrow_forward</span></div></div>
+                  <div class="col g16">
+                    <div class="bars">
+                      <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:68px;background:#c0453f;border:1px solid #d5d0e4"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:28px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:20px;background:#afa7bb"></div></div>
+                      <div class="bar-col"><div class="bar" style="height:14px;background:#a7b4bb"></div></div>
+                    </div>
+                    <div class="sep"></div>
+                  </div>
+                  <div class="col g4">
+                    <div class="row g4"><span class="mi s18">add_alert</span><span style="font-size:14px;font-weight:500">Tomorrow: Dentist 9am</span></div>
+                    <div class="row g4" style="font-size:14px"><span class="mi s18" style="color:#f5a623">warning</span><span style="color:#fff">Wed looks packed — </span><span style="color:#9b7fd4;text-decoration:underline;cursor:pointer">Want help?</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+            <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+          </div>
+
+          <!-- ⑤ Adding a Task -->
+          <div class="ps" id="s-adding">
+            <div class="bg-gradient"></div>
+            <div style="position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1">
+              <button id="btnCloseCard" class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></button>
+              <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+              <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+            </div>
+            <div style="position:absolute;left:16px;right:16px;top:110px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:20px 16px;z-index:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                <span style="font-size:17px;font-weight:600">Create a...</span>
+                <span style="color:rgba(255,255,255,.45);font-size:22px;cursor:pointer" onclick="document.getElementById('btnCloseCard').click()">×</span>
+              </div>
+              <input id="taskInput" type="text" autocomplete="off" spellcheck="false" placeholder=""
+                style="width:100%;height:42px;background:rgba(255,255,255,.07);border:1.5px solid rgba(155,127,212,.65);border-radius:12px;outline:none;color:#fff;font-family:'Inter',sans-serif;font-size:15px;padding:0 12px;caret-color:#9b7fd4;box-sizing:border-box">
+              <div id="nlpHint" style="height:20px;margin-top:8px;font-size:12px;color:rgba(255,255,255,.45)"></div>
+              <button id="btnConfirm" class="cta cta-purple w100" style="margin-top:12px">Create</button>
+            </div>
+            <div id="proto-kb">
+              <div class="kb-row"><span data-k="q" class="k">q</span><span data-k="w" class="k">w</span><span data-k="e" class="k">e</span><span data-k="r" class="k">r</span><span data-k="t" class="k">t</span><span data-k="y" class="k">y</span><span data-k="u" class="k">u</span><span data-k="i" class="k">i</span><span data-k="o" class="k">o</span><span data-k="p" class="k">p</span></div>
+              <div class="kb-row" style="padding:0 18px"><span data-k="a" class="k">a</span><span data-k="s" class="k">s</span><span data-k="d" class="k">d</span><span data-k="f" class="k">f</span><span data-k="g" class="k">g</span><span data-k="h" class="k">h</span><span data-k="j" class="k">j</span><span data-k="k" class="k">k</span><span data-k="l" class="k">l</span></div>
+              <div class="kb-row"><span data-k="⇧" class="k wide">⇧</span><span data-k="z" class="k">z</span><span data-k="x" class="k">x</span><span data-k="c" class="k">c</span><span data-k="v" class="k">v</span><span data-k="b" class="k">b</span><span data-k="n" class="k">n</span><span data-k="m" class="k">m</span><span data-k="del" class="k wide">⌫</span></div>
+              <div class="kb-row"><span data-k="123" class="k wide small">123</span><span data-k=" " class="k wider">space</span><span data-k="return" class="k wide small">return</span></div>
+            </div>
+          </div>
+
+          <!-- ⑥ Task Confirmed -->
+          <div class="ps" id="s-confirmed">
+            <div class="bg-gradient"></div>
+            <div style="position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1">
+              <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+              <div class="switcher"><div class="sw-tab on"><span class="mi f s32">dashboard</span></div><div class="sw-tab"><span class="mi s32" style="color:rgba(255,255,255,.5)">park</span></div></div>
+              <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">volume_up</span></div>
+            </div>
+            <div id="progTrack"><div id="progBar"></div></div>
+            <div style="position:absolute;left:16px;right:16px;top:92px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:20px 16px;z-index:1">
+              <p style="font-size:22px;font-weight:700;margin-bottom:16px">Reminder created</p>
+              <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:12px;display:flex;align-items:flex-start;gap:10px;margin-bottom:20px">
+                <span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.8)">add_alert</span>
+                <div>
+                  <p style="font-size:15px;font-weight:600;margin-bottom:3px">Call mom</p>
+                  <p style="font-size:13px;color:rgba(255,255,255,.55)">Tomorrow, 6:00pm · notifies on WhatsApp and 2+</p>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px">
+                <button id="btnEdit" class="cta cta-ghost" style="flex:1;padding:0">Edit</button>
+                <button id="btnConfirmedDone" class="cta cta-purple" style="flex:1;padding:0">Done</button>
               </div>
             </div>
           </div>
 
-          <!-- ④ Heavy User — interactive: Create a..., See full day, View full week -->
-          <div class="ps" id="ps-heavy">
-            <img class="ps-bg" src="screen-heavy-user2.png" alt="">
-            <button id="btnHeavyCreate" style="position:absolute;left:20px;top:200px;width:150px;height:42px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
-            <button id="btnSeeFullDay" style="position:absolute;left:36px;top:463px;width:330px;height:46px;background:transparent;border:none;cursor:pointer;border-radius:22px;"></button>
-            <button id="btnViewFullWeek" style="position:absolute;left:218px;top:560px;width:162px;height:44px;background:transparent;border:none;cursor:pointer;border-radius:100px;"></button>
+          <!-- ⑦ This Week Empty -->
+          <div class="ps" id="s-weekempty">
+            <div class="bg-week-empty"></div>
+            <div style="position:relative;z-index:1;padding:14px 20px 0;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:14px;font-weight:600">13:27</span>
+              <span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.7)">5G</span>
+            </div>
+            <div style="position:relative;z-index:1;display:flex;align-items:center;gap:16px;padding:12px 20px 0">
+              <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+              <div class="col g8" style="flex:1">
+                <div class="row g8"><span style="font-size:24px;font-weight:600">This week</span></div>
+              </div>
+            </div>
+            <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 40px 160px;text-align:center;gap:16px;margin-top:60px">
+              <p style="font-size:26px;font-weight:700;line-height:1.2">Your week's wide open.</p>
+              <p style="font-size:15px;color:rgba(255,255,255,.6);line-height:1.6">Once you've got a few reminders, tasks, or events in, I'll map out your workload here — and flag the busy days before they sneak up on you.</p>
+              <button id="btnWeekEmptyCreate" class="cta cta-purple" style="margin-top:8px"><span class="mi s18">add</span>Create a...</button>
+            </div>
+            <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+            <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
           </div>
 
-          <!-- Weekly Briefing — scrollable (1199px image) -->
-          <div class="ps" id="ps-briefing" style="overflow-y:scroll;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none;">
-            <img src="screen-weekly-briefing.png" style="width:402px;height:auto;display:block;">
+          <!-- ⑧ Weekly Briefing (scrollable) -->
+          <div class="ps" id="s-briefing">
+            <div id="briefing-scroll" style="position:absolute;inset:0;overflow-y:scroll;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none">
+              <div style="width:402px;min-height:1196px;position:relative">
+                <div class="bg-photo" style="height:1196px"></div><div class="bg-overlay" style="height:1196px"></div>
+                <div style="position:relative;z-index:1;display:flex;align-items:flex-start;gap:16px;padding:48px 20px 0">
+                  <div class="btn-circle" style="flex-shrink:0;margin-top:4px"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+                  <div class="col g8">
+                    <div class="row g8"><span style="font-size:24px;font-weight:600">This week</span><span style="font-size:14px;font-weight:500;color:#a8a3b8">Jun 29 / Jul 5</span></div>
+                    <p style="font-size:14px;color:rgba(255,255,255,.9)">26 things this week — lighter than usual, but Wednesday's carrying most of it</p>
+                  </div>
+                </div>
+                <div style="position:relative;z-index:1;padding:32px 20px 0">
+                  <div style="display:flex;align-items:flex-end;gap:6px;height:100px">
+                    <div class="bar-col"><div class="bar" style="height:25px;background:#afa7bb"></div><span class="bar-lbl">M</span></div>
+                    <div class="bar-col"><div class="bar" style="height:42px;background:#c98a4a"></div><span class="bar-lbl">T</span></div>
+                    <div class="bar-col"><div class="bar" style="height:68px;background:#c0453f;border:1px solid #d5d0e4"></div><span class="bar-lbl hi">W</span></div>
+                    <div class="bar-col"><div class="bar" style="height:28px;background:#afa7bb"></div><span class="bar-lbl">T</span></div>
+                    <div class="bar-col"><div class="bar" style="height:34px;background:#c98a4a"></div><span class="bar-lbl">F</span></div>
+                    <div class="bar-col"><div class="bar" style="height:20px;background:#afa7bb"></div><span class="bar-lbl">S</span></div>
+                    <div class="bar-col"><div class="bar" style="height:14px;background:#a7b4bb"></div><span class="bar-lbl">S</span></div>
+                  </div>
+                  <div class="sep" style="margin-top:16px"></div>
+                </div>
+                <div style="position:relative;z-index:1;padding:32px 20px 0">
+                  <div class="row jb" style="margin-bottom:16px">
+                    <span style="font-size:20px;font-weight:600">Wednesday</span>
+                    <div class="badge-red" style="padding:4px 10px;border-radius:100px;display:flex;align-items:center">9 items · overloaded</div>
+                  </div>
+                  <div class="glass" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+                    <div class="li"><div class="row g8"><span class="mi s24">ballot</span><span class="li-name">Finish Q3 deck</span></div><div class="row g6"><div class="badge-purple">Priority</div><span style="font-size:14px;color:rgba(255,255,255,.6)">9:00</span></div></div>
+                    <div class="li"><div class="row g8"><span class="mi s24">event</span><span class="li-name">Client call</span></div><span style="font-size:14px;color:rgba(255,255,255,.6)">10:30</span></div>
+                    <div style="display:flex;justify-content:center;padding-top:8px"><span style="font-size:14px;font-weight:600;color:#9b7fd4;cursor:pointer">See all 9 ›</span></div>
+                  </div>
+                </div>
+                <div style="position:relative;z-index:1;padding:32px 20px 0;display:flex;flex-direction:column;gap:16px">
+                  <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#a8a3b8">Memorae Noticed</p>
+                  <div class="notice">
+                    <div class="row g12" style="align-items:flex-start"><span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.8)">warning</span><div class="notice-head"><p class="notice-title">Wednesday is overloaded</p><p class="notice-body">Nine items stacked between 9am and 2pm. Two could move to Thursday.</p></div></div>
+                    <div class="row g12">
+                      <button id="btnWedViewDay" class="cta cta-ghost" style="flex:1;padding:0">View day</button>
+                      <button class="cta cta-purple" style="flex:1;padding:0">Rebalance</button>
+                    </div>
+                  </div>
+                  <div class="notice">
+                    <div class="row g12" style="align-items:flex-start"><span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.7)">add_alert</span><div class="notice-head"><p class="notice-title">3 reminders have no time set</p><p class="notice-body">They won't notify you until you give them a time.</p></div></div>
+                    <button class="cta cta-ghost w100" style="padding:0">Set times</button>
+                  </div>
+                  <div class="notice">
+                    <div class="row g12" style="align-items:flex-start"><span class="mi s24" style="flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.7)">ballot</span><div class="notice-head"><p class="notice-title">Two free evenings ;)</p><p class="notice-body">Thu &amp; Fri after 6pm</p></div></div>
+                  </div>
+                </div>
+                <div style="height:100px"></div>
+              </div>
+            </div>
+            <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+            <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
           </div>
 
-          <!-- Static image for view-only screens -->
-          <img id="ps-image" src="" alt="" style="height:874px;object-fit:cover;object-position:top;">
+          <!-- ⑨ Today Full Day -->
+          <div class="ps" id="s-today">
+            <div class="bg-photo"></div><div class="bg-overlay"></div>
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;padding:52px 20px 120px;gap:32px">
+              <div class="row jb" style="padding:12px 0">
+                <div class="row g16" style="align-items:flex-start">
+                  <div class="btn-circle"><span class="mi s18" style="color:rgba(255,255,255,.7)">arrow_back_ios</span></div>
+                  <div class="col g8"><span style="font-size:24px;font-weight:700">Today</span><span style="font-size:16px;font-weight:500;color:#a8a3b8">Tuesday, June 29</span></div>
+                </div>
+                <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,1);border-radius:100px;padding:4px 12px"><span style="font-size:14px;font-weight:600;color:#a8a3b8">5 items</span></div>
+              </div>
+              <div class="col g12">
+                <div class="section-hdr">Morning</div>
+                <div class="task-card overdue"><div class="tc-left"><span class="mi s32" style="color:#ff9090">ballot</span><span class="tc-name">Send invoice</span></div><span class="tc-time" style="color:#fff">2 days overdue</span></div>
+                <div class="task-card"><div class="tc-left"><span class="mi s32">add_alert</span><span class="tc-name">Drink water</span></div><span class="tc-time">10:00</span></div>
+                <div class="section-hdr mt">Afternoon</div>
+                <div class="task-card"><div class="tc-left"><span class="mi s32">add_alert</span><span class="tc-name">Call mom</span></div><span class="tc-time">12:00</span></div>
+                <div class="task-card"><div class="tc-left"><span class="mi s32">event</span><span class="tc-name">Team sync</span></div><span class="tc-time">15:30</span></div>
+                <div class="section-hdr mt">Done Today</div>
+                <div class="task-card" style="opacity:.4"><div class="tc-left"><span class="mi s32">ballot</span><span class="tc-name done">Morning workout</span></div><span class="tc-time"></span></div>
+              </div>
+            </div>
+            <img src="memorae-mascot.png" class="mascot" style="bottom:106px" alt="">
+            <div class="ps-nav"><div class="nav-bar"><span class="mi f s32">dashboard</span><span class="mi s32" style="color:rgba(255,255,255,.5)">add_alert</span><span class="mi s32" style="color:rgba(255,255,255,.5)">calendar_today</span><span class="mi s32" style="color:rgba(255,255,255,.5)">ballot</span></div></div>
+          </div>
 
         </div>
       </div>
@@ -745,85 +996,87 @@
 
     // ── Prototype ──────────────────────────────────────────────────────────
     let protoTimer = null;
-    // history stack — each entry: "screenId:imgSrc" (imgSrc is '' when none)
-    const navHistory = ['ps-empty:'];
+    const navHistory = ['s-empty'];
 
-    function showScreen(screenId, imgSrc, push) {
+    function showScreen(id, push) {
       clearTimeout(protoTimer);
-      if (push) navHistory.push(screenId + ':' + (imgSrc || ''));
-
+      if (push) navHistory.push(id);
       document.querySelectorAll('.ps').forEach(el => el.classList.remove('active'));
-      const psImg = document.getElementById('ps-image');
-      psImg.classList.remove('active');
-      // reset briefing scroll whenever leaving it
-      if (screenId !== 'ps-briefing') {
-        const br = document.getElementById('ps-briefing');
-        if (br) br.scrollTop = 0;
+      if (id !== 's-briefing') {
+        const b = document.getElementById('briefing-scroll');
+        if (b) b.scrollTop = 0;
       }
-
-      if (screenId === 'ps-image') {
-        psImg.src = imgSrc || '';
-        psImg.classList.add('active');
-      } else {
-        const el = document.getElementById(screenId);
-        if (el) el.classList.add('active');
-      }
-
-      document.querySelectorAll('.proto__chip').forEach(c => {
-        const match = c.dataset.screen === screenId &&
-          (screenId !== 'ps-image' || c.dataset.img === imgSrc);
-        c.classList.toggle('active', match);
-      });
-
-      // progress bar fills left → right over 3s, then lands on Heavy User
-      if (screenId === 'ps-confirmed') {
-        const bar = document.getElementById('progBar');
-        bar.style.transition = 'none';
-        bar.style.width = '0%';
-        bar.getBoundingClientRect();
-        bar.style.transition = 'width 3s linear';
-        bar.style.width = '100%';
-        protoTimer = setTimeout(() => {
-          // replace ps-confirmed in history so back-nav never lands here again
-          const idx = navHistory.lastIndexOf('ps-confirmed:');
-          if (idx !== -1) navHistory.splice(idx, 1);
-          showScreen('ps-heavy', null, true);
-        }, 3000);
-      }
-
-      if (screenId !== 'ps-adding') {
-        document.getElementById('taskInput').value = '';
-        document.getElementById('nlpHint').textContent = '';
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      document.querySelectorAll('.proto__chip').forEach(c => c.classList.toggle('active', c.dataset.s === id));
+      if (id === 's-confirmed') startProgress();
+      if (id !== 's-adding') {
+        const inp = document.getElementById('taskInput');
+        if (inp) { inp.value = ''; document.getElementById('nlpHint').textContent = ''; }
       }
     }
 
     function goBack() {
       if (navHistory.length <= 1) return;
       navHistory.pop();
-      const prev  = navHistory[navHistory.length - 1];
-      const colon = prev.indexOf(':');
-      const id    = prev.slice(0, colon);
-      const img   = prev.slice(colon + 1) || null;
-      showScreen(id, img, false);
+      showScreen(navHistory[navHistory.length - 1], false);
     }
 
-    // Chip clicks reset history to a single entry
+    function startProgress() {
+      const bar = document.getElementById('progBar');
+      bar.style.transition = 'none'; bar.style.width = '0%';
+      bar.getBoundingClientRect();
+      bar.style.transition = 'width 3s linear'; bar.style.width = '100%';
+      protoTimer = setTimeout(() => {
+        const idx = navHistory.lastIndexOf('s-confirmed');
+        if (idx !== -1) navHistory.splice(idx, 1);
+        showScreen('s-heavyf', true);
+      }, 3000);
+    }
+
     document.querySelectorAll('.proto__chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        navHistory.length = 0;
-        navHistory.push(chip.dataset.screen + ':' + (chip.dataset.img || ''));
-        showScreen(chip.dataset.screen, chip.dataset.img, false);
-        if (chip.dataset.screen === 'ps-adding') {
-          setTimeout(() => document.getElementById('taskInput').focus(), 40);
-        }
+        navHistory.length = 0; navHistory.push(chip.dataset.s);
+        showScreen(chip.dataset.s, false);
+        if (chip.dataset.s === 's-adding') setTimeout(() => document.getElementById('taskInput').focus(), 40);
       });
     });
 
-    // Global back button + card × close
     document.getElementById('btnBack').addEventListener('click', goBack);
     document.getElementById('btnCloseCard').addEventListener('click', goBack);
 
-    // Keyboard keys type into the input
+    ['btnEmptyCreate','btnLightCreate','btnHeavyCreate','btnHeavyfCreate','btnWeekEmptyCreate'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => {
+        showScreen('s-adding', true);
+        setTimeout(() => document.getElementById('taskInput').focus(), 40);
+      });
+    });
+
+    ['btnLightDay','btnHeavyDay','btnHeavyfDay','btnWedViewDay'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => showScreen('s-today', true));
+    });
+
+    ['btnLightWeek','btnHeavyWeek','btnHeavyfWeek'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => showScreen('s-briefing', true));
+    });
+
+    document.getElementById('btnConfirm').addEventListener('click', () => showScreen('s-confirmed', true));
+
+    document.getElementById('btnConfirmedDone').addEventListener('click', () => {
+      clearTimeout(protoTimer);
+      const idx = navHistory.lastIndexOf('s-confirmed');
+      if (idx !== -1) navHistory.splice(idx, 1);
+      showScreen('s-heavyf', true);
+    });
+
+    document.getElementById('btnEdit').addEventListener('click', () => {
+      clearTimeout(protoTimer);
+      const idx = navHistory.lastIndexOf('s-confirmed');
+      if (idx !== -1) navHistory.splice(idx, 1);
+      showScreen('s-adding', true);
+      setTimeout(() => document.getElementById('taskInput').focus(), 40);
+    });
+
     document.getElementById('proto-kb').addEventListener('click', e => {
       const k = e.target.dataset.k;
       if (k === undefined) return;
@@ -836,80 +1089,38 @@
       inp.focus();
     });
 
-    // Empty State → Adding a Task
-    document.getElementById('btnCreate').addEventListener('click', () => {
-      showScreen('ps-adding', null, true);
-      setTimeout(() => document.getElementById('taskInput').focus(), 40);
-    });
-
-    // Heavy User: Create a... → Adding a Task
-    document.getElementById('btnHeavyCreate').addEventListener('click', () => {
-      showScreen('ps-adding', null, true);
-      setTimeout(() => document.getElementById('taskInput').focus(), 40);
-    });
-
-    // Heavy User: See full day → Today
-    document.getElementById('btnSeeFullDay').addEventListener('click', () => {
-      showScreen('ps-image', 'screen-today.png', true);
-    });
-
-    // Heavy User: View full week → Weekly Briefing (scrollable)
-    document.getElementById('btnViewFullWeek').addEventListener('click', () => {
-      showScreen('ps-briefing', null, true);
-    });
-
-    // Confirm → Task Confirmed
-    document.getElementById('btnConfirm').addEventListener('click', () => {
-      showScreen('ps-confirmed', null, true);
-    });
-
-    // Done button inside Task Confirmed — same as timer: skip to Heavy User
-    document.getElementById('btnConfirmedDone').addEventListener('click', () => {
-      clearTimeout(protoTimer);
-      const idx = navHistory.lastIndexOf('ps-confirmed:');
-      if (idx !== -1) navHistory.splice(idx, 1);
-      showScreen('ps-heavy', null, true);
-    });
-
-    // NLP parse hint
     function updateNlpHint(val) {
-      const hint = document.getElementById('nlpHint');
-      if (!val.trim()) { hint.textContent = ''; return; }
-      if (/\b(remind|remember|don.{0,3}forget)\b/i.test(val))            hint.textContent = 'Setting a reminder';
-      else if (/\b(meet|call|lunch|appointment|at \d|dinner)\b/i.test(val)) hint.textContent = 'Adding a calendar event';
-      else if (/\b(buy|get|pick up|order|send)\b/i.test(val))            hint.textContent = 'Creating a task';
-      else                                                                 hint.textContent = 'Creating a task';
+      const h = document.getElementById('nlpHint');
+      if (!val.trim()) { h.textContent = ''; return; }
+      if (/\b(remind|remember|don.{0,3}forget)\b/i.test(val))              h.textContent = 'Setting a reminder';
+      else if (/\b(meet|call|lunch|appointment|at \d|dinner)\b/i.test(val)) h.textContent = 'Adding a calendar event';
+      else if (/\b(buy|get|pick up|order|send)\b/i.test(val))              h.textContent = 'Creating a task';
+      else                                                                    h.textContent = 'Creating a task';
     }
 
-    document.getElementById('taskInput').addEventListener('input', e => {
-      updateNlpHint(e.target.value);
-    });
+    document.getElementById('taskInput').addEventListener('input', e => updateNlpHint(e.target.value));
 
-    // Wheel scroll for ps-briefing (overflow:hidden on device blocks native scroll)
-    document.querySelector('.proto__device').addEventListener('wheel', e => {
-      const briefing = document.getElementById('ps-briefing');
-      if (briefing && briefing.classList.contains('active')) {
-        briefing.scrollTop += e.deltaY;
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    // Keydown on Empty State or Heavy User → jump to Adding a Task
     document.addEventListener('keydown', e => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
            'Escape','Tab','Enter','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) return;
-      const onTrigger = ['ps-empty','ps-heavy'].some(id => {
-        const el = document.getElementById(id);
-        return el && el.classList.contains('active');
-      });
-      if (!onTrigger) return;
-      showScreen('ps-adding', null, true);
+      const homeScreens = ['s-empty','s-heavy','s-heavyf','s-light'];
+      const onHome = homeScreens.some(id => document.getElementById(id)?.classList.contains('active'));
+      if (!onHome) return;
+      showScreen('s-adding', true);
       const inp = document.getElementById('taskInput');
       inp.focus();
       if (e.key === 'Backspace') { e.preventDefault(); return; }
       if (e.key.length === 1) { inp.value += e.key; updateNlpHint(inp.value); e.preventDefault(); }
     });
+
+    document.querySelector('.proto__device').addEventListener('wheel', e => {
+      const b = document.getElementById('s-briefing');
+      if (b && b.classList.contains('active')) {
+        document.getElementById('briefing-scroll').scrollTop += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
   </script>
 
 </body>
