@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memorae — Redesigning The Office</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c1a24;
+    --ink-soft:#56525f;
+    --ink-faint:#8b8794;
+    --paper:#f6f4f0;
+    --paper-2:#ffffff;
+    --line:#e4e0d9;
+    --halo-1:#b9a8e8;
+    --halo-2:#e7b8d8;
+    --halo-3:#9fc7e8;
+    --accent:#6a4fb0;
+    --danger:#b23a3a;
+    --good:#2e7d46;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:120px 0 90px;
+    overflow:hidden;
+  }
+  .halo{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(60px);
+    opacity:.55;
+    z-index:0;
+  }
+  .halo.a{width:340px;height:340px;background:var(--halo-1);top:-80px;right:-60px}
+  .halo.b{width:280px;height:280px;background:var(--halo-2);top:40px;left:-90px}
+  .halo.c{width:220px;height:220px;background:var(--halo-3);top:180px;right:120px}
+  .hero .wrap{position:relative;z-index:1}
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:28px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(38px,7vw,68px);
+    line-height:1.04;
+    letter-spacing:-0.02em;
+    margin-bottom:26px;
+    max-width:14ch;
+  }
+  .hero p.lede{
+    font-size:clamp(17px,2.4vw,20px);
+    color:var(--ink-soft);
+    max-width:46ch;
+  }
+  .meta{
+    margin-top:40px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 14px;
+    font-size:13.5px;
+    color:var(--ink-faint);
+  }
+  .meta span{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    padding:5px 13px;
+    border-radius:40px;
+  }
+
+  /* ---------- section scaffolding ---------- */
+  section{padding:62px 0;border-top:1px solid var(--line)}
+  .label{
+    font-size:12.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    font-weight:600;
+    margin-bottom:20px;
+  }
+  h2{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(26px,4vw,38px);
+    line-height:1.12;
+    letter-spacing:-0.015em;
+    margin-bottom:22px;
+    max-width:20ch;
+  }
+  p{font-size:17px;color:var(--ink-soft);margin-bottom:18px;max-width:60ch}
+  p strong{color:var(--ink);font-weight:600}
+  p:last-child{margin-bottom:0}
+
+  /* ---------- thesis pull ---------- */
+  .thesis{
+    background:var(--ink);
+    color:#fff;
+    border-radius:22px;
+    padding:46px 40px;
+    margin-top:8px;
+  }
+  .thesis .q{
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    font-size:clamp(21px,3.2vw,28px);
+    line-height:1.35;
+    letter-spacing:-0.01em;
+    color:#fff;
+    max-width:26ch;
+    margin:0;
+  }
+  .thesis .q em{
+    font-style:italic;
+    color:var(--halo-2);
+  }
+
+  /* ---------- decisions ---------- */
+  .decisions{display:flex;flex-direction:column;gap:0;margin-top:8px}
+  .decision{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:22px;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  .decision:last-child{border-bottom:none}
+  .decision .n{
+    font-family:'Fraunces',serif;
+    font-size:30px;
+    line-height:1;
+    color:var(--accent);
+    font-weight:500;
+  }
+  .decision h3{
+    font-size:18px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:7px;
+  }
+  .decision p{margin:0;font-size:16px}
+
+  /* ---------- deep dive cards ---------- */
+  .cards{display:grid;gap:12px;margin-top:6px}
+  @media(min-width:620px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:20px;
+  }
+  .card .tag{
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .card.problem .tag{color:var(--danger)}
+  .card.gap .tag{color:var(--accent)}
+  .card.moment .tag{color:var(--good)}
+  .card h4{font-size:15.5px;font-weight:600;color:var(--ink);margin-bottom:5px}
+  .card p{font-size:14px;margin:0;color:var(--ink-soft)}
+
+  /* ---------- bet ---------- */
+  .bet{
+    background:linear-gradient(135deg,var(--halo-1),var(--halo-3));
+    border-radius:22px;
+    padding:46px 40px;
+    margin-top:8px;
+  }
+  .bet p{
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    font-size:clamp(20px,3vw,27px);
+    line-height:1.34;
+    color:#241f33;
+    max-width:30ch;
+    margin:0;
+  }
+
+  /* ---------- next ---------- */
+  ul.next{list-style:none;margin-top:8px}
+  ul.next li{
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    font-size:16px;
+    color:var(--ink-soft);
+    max-width:62ch;
+  }
+  ul.next li:last-child{border-bottom:none}
+  ul.next li strong{color:var(--ink);font-weight:600}
+
+  footer{
+    padding:50px 0 70px;
+    border-top:1px solid var(--line);
+    color:var(--ink-faint);
+    font-size:13.5px;
+  }
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="halo a"></div>
+    <div class="halo b"></div>
+    <div class="halo c"></div>
+    <div class="wrap">
+      <div class="eyebrow">Memorae · Product design challenge</div>
+      <h1>Four features, one question: what needs me now?</h1>
+      <p class="lede">Redesigning The Office — Memorae's actionable memory space — from a dashboard you browse into a space you act from.</p>
+      <div class="meta">
+        <span>Role · Product Designer</span>
+        <span>Scope · Mobile + Web</span>
+        <span>Time · ~5 hours</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="label">The problem</div>
+        <h2>Four features, four cognitive modes, one flat dashboard.</h2>
+        <p>The Office surfaces Reminders, Tasks, Calendar, and Weekly Briefing as four separate tiles — each asking the user to switch mental gears. The result is a dashboard you <strong>browse</strong>, not one you act from.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="label">The thesis</div>
+        <h2>These aren't four features. They're one question.</h2>
+        <p>To the user, a reminder, a task, and an event are the same thing: something that needs attention at some point in time. So the home stops being four tiles and collapses into two time-based zones.</p>
+        <div class="thesis">
+          <p class="q"><em>Today</em> — what to act on now. <em>This week</em> — what's coming. Everything merged by time, not by feature.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="label">Three decisions</div>
+        <h2>What shaped the design.</h2>
+        <div class="decisions">
+          <div class="decision">
+            <div class="n">1</div>
+            <div>
+              <h3>Time over category</h3>
+              <p>Reminders, tasks, and events merge into one chronological list, kept legible by icon. Hierarchy comes from urgency — not from feature boundaries.</p>
+            </div>
+          </div>
+          <div class="decision">
+            <div class="n">2</div>
+            <div>
+              <h3>Trust through completeness</h3>
+              <p>The job isn't "show me today" — it's "show me nothing slipped." Overdue items escalate with specific labels; completed items stay visible, struck through, as proof.</p>
+            </div>
+          </div>
+          <div class="decision">
+            <div class="n">3</div>
+            <div>
+              <h3>Creation that feels like texting</h3>
+              <p>One input parses natural language and routes it to the right type — no forms, no choosing a category first. It confirms how it understood you, with an auto-dismiss and undo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="label">Scaling invisibly</div>
+        <h2>From three reminders to two hundred items — same structure.</h2>
+        <p>An empty state invites a first action instead of showing hollow cards. A heavy day still surfaces only the top items, with the rest one tap away. It never feels empty for new users, or overwhelming for power users.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="label">The deep-dive · Weekly Briefing</div>
+        <h2>The feature that didn't exist yet — designed from scratch.</h2>
+        <p>A workload heat map you can tap into, day by day, paired with action cards. Memorae doesn't just store your week — it reads it, and surfaces three kinds of thing:</p>
+        <div class="cards">
+          <div class="card problem">
+            <div class="tag">Problem</div>
+            <h4>Wednesday's overloaded</h4>
+            <p>Nine items stacked between 9 and 2. Want to rebalance?</p>
+          </div>
+          <div class="card gap">
+            <div class="tag">Gap</div>
+            <h4>3 reminders, no time set</h4>
+            <p>They won't notify you until you give them a time.</p>
+          </div>
+          <div class="card moment">
+            <div class="tag">Moment</div>
+            <h4>Two free evenings</h4>
+            <p>Thursday and Friday after 6 are clear. Nice.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="label">The bet</div>
+        <div class="bet">
+          <p>If The Office becomes genuinely seamless, the app stops being a thing you check — and becomes the thing you trust more than WhatsApp. Because WhatsApp never shows you the whole picture. This does.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="label">What I'd do next</div>
+        <h2>What's unfinished, and on purpose.</h2>
+        <ul class="next">
+          <li><strong>Validate the auto-confirm window.</strong> Committing on a timer is fast — but I'd test whether the silent dismiss feels reassuring or risky for a misread date.</li>
+          <li><strong>Pressure-test the status line.</strong> The "alive" feeling rests on one personalized sentence. It only works if it's well-written every day — that needs real content rules.</li>
+          <li><strong>Extend action cards beyond the Briefing.</strong> The "Memorae noticed" pattern could surface in Reminders and Calendar too — one idea, reaching across features.</li>
+          <li><strong>Push the desktop layout further.</strong> Same hierarchy, more room — let Today and the week breathe side by side rather than stack.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">Memorae — "You just live. Memorae remembers for you."</div>
+  </footer>
+
+  <script>
+    const obs=new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})
+    },{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+
+</body>
+</html>
